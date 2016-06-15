@@ -1,0 +1,53 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.project.yuliya.canyouescape.fragment.RightDoorFragment">
+
+    <RelativeLayout
+        android:id="@+id/myLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="5"
+        android:background="@drawable/door_right">
+
+        <ImageView
+            android:id="@+id/light"
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="120dp"
+            android:background="@drawable/light"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/doorR"
+            android:layout_width="190dp"
+            android:layout_height="300dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
+
+        <ImageView
+            android:id="@+id/tumbler"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="120dp"
+            android:layout_marginTop="90dp"
+            android:background="@drawable/tumdler" />
+
+        <TextView
+            android:id="@+id/message"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:textAlignment="center"
+            android:textColor="#1bb6ff"
+            android:textSize="20dp" />
+
+    </RelativeLayout>
+
+</FrameLayout>

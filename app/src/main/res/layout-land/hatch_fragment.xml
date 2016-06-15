@@ -1,0 +1,63 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.project.yuliya.canyouescape.fragment.HatchFragment">
+
+    <RelativeLayout
+        android:id="@+id/hatchLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="5">
+
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/cables2" />
+
+        <ImageView
+            android:id="@+id/cables"
+            android:layout_width="250dp"
+            android:layout_height="150dp"
+            android:layout_centerInParent="true" />
+
+        <ImageView
+            android:id="@+id/keySafe"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="false"
+            android:background="@drawable/key_safe"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="190dp" />
+
+        <ImageView
+            android:id="@+id/hatchBackground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:background="@drawable/hatch_open"/>
+
+        <ImageView
+            android:id="@+id/hatchLock"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="170dp"
+            android:layout_marginTop="130dp" />
+
+        <TextView
+            android:id="@+id/message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:textAlignment="center"
+            android:textColor="#1bb6ff"
+            android:textSize="20dp" />
+
+    </RelativeLayout>
+
+</FrameLayout>

@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Can You Escape</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="msg_close">Locked!!!</string>
+    <string name="msg_inscription">Here is something written...</string>
+    <string name="msg_key1">Here the key!!!</string>
+    <string name="msg_it_can_be_moved">It can be moved</string>
+    <string name="msg_Oh_not_reach">Oh, not reach</string>
+    <string name="msg_mirror">Mirror</string>
+    <string name="msg_hammer">Wow, even the hammer</string>
+    <string name="msg_cable">A piece of cable</string>
+    <string name="msg_tink">tink</string>
+    <string name="msg_key2">Another clue! Well all!! On the way out!!</string>
+    <string name="msg_hatch">What is this?</string>
+    <string name="msg_it_open">Oh, it is open!!</string>
+    <string name="msg_fixed">Fixed</string>
+    <string name="msg_key3">How long I have been looking for you</string>
+    <string name="msg_tumbler">Not working, or what</string>
+    <string name="msg_tumbler1">Let there be light!!</string>
+    <string name="msg_tumbler2">The need to save electricity</string>
+    <string name="msg_dark">OOO!! How dark it is here</string>
+    <string name="msg_safe">Safe? Very bad(</string>
+    <string name="msg_key4">Yay!! The key!!!</string>
+    <string name="msg_hatch2">What electrician ?</string>
+</resources>
