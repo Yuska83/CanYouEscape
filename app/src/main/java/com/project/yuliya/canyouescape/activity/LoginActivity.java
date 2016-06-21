@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.project.yuliya.canyouescape.R;
 import com.project.yuliya.canyouescape.forserver.UserTask;
@@ -19,6 +20,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String TAG = "MyLog";
     DBHelper dbHelper;
     Button play;
+    EditText name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,18 +31,18 @@ public class LoginActivity extends AppCompatActivity {
         dbHelper = new DBHelper(this);
         dbHelper.fillDB();
 
-        new UserTask().execute();
-
-
-
+        name = (EditText) findViewById(R.id.name);
         play = (Button) findViewById(R.id.play);
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(name.getText().equals("")) return;
+
+                UserTask task = new UserTask();
+                task.execute(name.getText().toString());
+
                 MediaPlayer.create(v.getContext(), R.raw.buttonenter).start();
-
-                new UserTask().execute();
-
                 Intent intent = new Intent(v.getContext(), MainActivity.class);
                 startActivity(intent);
                 finish();

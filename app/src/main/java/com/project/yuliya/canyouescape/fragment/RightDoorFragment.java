@@ -24,7 +24,7 @@ import com.project.yuliya.canyouescape.helper.DBHelper;
 
 public class RightDoorFragment extends MainFragment {
 
-    ImageView door, tumbler, light;
+    ImageView door, tumbler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
@@ -43,7 +43,12 @@ public class RightDoorFragment extends MainFragment {
             messageBox = (TextView) view.findViewById(R.id.message);
             door = (ImageView) view.findViewById(R.id.doorR);
             tumbler = (ImageView) view.findViewById(R.id.tumbler);
-            light = (ImageView) view.findViewById(R.id.light);
+
+            if(dbHelper.getValue(DBHelper.KEY_ON_LIGHT)== 1)
+                myLayout.setBackground(getResources().getDrawable(R.drawable.door_right2));
+            else
+                myLayout.setBackground(getResources().getDrawable(R.drawable.door_right));
+
 
             myLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -89,13 +94,13 @@ public class RightDoorFragment extends MainFragment {
 
                         if (dbHelper.getValue(DBHelper.KEY_ON_LIGHT) == 1) {
                             dbHelper.saveInDB(DBHelper.KEY_ON_LIGHT, 0);
-                            light.setVisibility(View.INVISIBLE);
+                            myLayout.setBackground(getResources().getDrawable(R.drawable.door_right));
                             messageBox.setText(R.string.msg_tumbler2);
 
                         } else {
                             if (dbHelper.getValue(DBHelper.KEY_IS_LIGHT) == 1) {
                                 dbHelper.saveInDB(DBHelper.KEY_ON_LIGHT, 1);
-                                light.setVisibility(View.VISIBLE);
+                                myLayout.setBackground(getResources().getDrawable(R.drawable.door_right2));
                                 messageBox.setText(R.string.msg_tumbler1);
                             } else {
                                 messageBox.setText(R.string.msg_tumbler);

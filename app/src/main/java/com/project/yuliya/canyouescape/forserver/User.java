@@ -2,24 +2,20 @@ package com.project.yuliya.canyouescape.forserver;
 
 import java.sql.Time;
 
-/**
- * Created by Yuri on 15.06.2016.
- */
+
 public class User {
 
     private long id;
     private String login;
-    private String password;
     private Time time;
 
     public User()
     {
 
     }
-    public User(String login, String password)
+    public User(String login)
     {
         this.login = login;
-        this.password = password;
         this.time = null;
     }
 
@@ -39,13 +35,6 @@ public class User {
         this.login = login;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public Time getTime() {
         return time;

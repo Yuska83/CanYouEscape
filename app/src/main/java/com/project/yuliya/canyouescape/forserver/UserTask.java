@@ -12,17 +12,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class UserTask extends AsyncTask<Void,Void,User> {
+public class UserTask extends AsyncTask<String,Void,User> {
 
     public static final String TAG = "MyLog";
 
     @Override
-    protected User doInBackground(Void... params) {
+    protected User doInBackground(String... params) {
         try {
             RestTemplate template = new RestTemplate();
             template.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-            return template.getForObject(Constants.URL.GET_USER_FOR_NAME,User.class);
+            User user = new User(params[0]);
+            user.setId(4);
+
+            return template.postForObject(Constants.URL.SAVE_NEW_USER,user,User.class);
 
         } catch (RestClientException e) {
             Log.d(TAG,"on doInBackground : ",e);
@@ -30,16 +33,20 @@ public class UserTask extends AsyncTask<Void,Void,User> {
         }
     }
 
+
+
     @Override
     protected void onPostExecute(User user) {
         try {
 
                 Log.d(TAG,"id : "+ user.getId()+" login : "+user.getLogin()+" password : "
-                        +user.getPassword()+" time : "+user.getTime());
+                        +" time : "+user.getTime());
 
         } catch (Exception e) {
             Log.d(TAG,"on onPostExecute : ",e);
         }
 
     }
+
+
 }
