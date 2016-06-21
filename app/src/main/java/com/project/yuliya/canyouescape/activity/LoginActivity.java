@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.project.yuliya.canyouescape.R;
+import com.project.yuliya.canyouescape.forserver.UserTask;
 import com.project.yuliya.canyouescape.helper.DBHelper;
 
 public class LoginActivity extends AppCompatActivity {
@@ -28,11 +29,17 @@ public class LoginActivity extends AppCompatActivity {
         dbHelper = new DBHelper(this);
         dbHelper.fillDB();
 
+        new UserTask().execute();
+
+
+
         play = (Button) findViewById(R.id.play);
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MediaPlayer.create(v.getContext(), R.raw.buttonenter).start();
+
+                new UserTask().execute();
 
                 Intent intent = new Intent(v.getContext(), MainActivity.class);
                 startActivity(intent);
@@ -40,7 +47,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        MediaPlayer.create(this, R.raw.wincheme).start();
+        if(savedInstanceState==null)
+            MediaPlayer.create(this, R.raw.wincheme).start();
 
 
     }

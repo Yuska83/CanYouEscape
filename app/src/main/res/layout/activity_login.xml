@@ -10,9 +10,22 @@
     tools:context="com.project.yuliya.canyouescape.activity.LoginActivity">
 
     <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@drawable/door_login">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="Enter you name"
+            android:id="@+id/name"
+            android:layout_above="@+id/play"
+            android:layout_alignLeft="@+id/play"
+            android:layout_alignStart="@+id/play"
+            android:layout_alignRight="@+id/play"
+            android:layout_alignEnd="@+id/play" />
+
 
         <Button
             android:id="@+id/play"
@@ -27,6 +40,8 @@
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp" />
+
+
 
     </RelativeLayout>
 
