@@ -1,10 +1,8 @@
 package com.project.yuliya.canyouescape.fragment;
 
 
-import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,6 +37,8 @@ public class CombinationLockFragment extends MainFragment implements View.OnClic
             view = inflater.inflate(R.layout.combination_lock_fragment, container, false);
             context = view.getContext();
             dbHelper = new DBHelper(context);
+            tool = (ToolFragment) getFragmentManager().findFragmentById(R.id.tool_fragment);
+            idUser = tool.idRowUser;
 
             str = new String();
 
@@ -143,7 +143,7 @@ public class CombinationLockFragment extends MainFragment implements View.OnClic
         {
             textView.setText("YES!!!");
             codelock.setEnabled(false);
-            dbHelper.saveInDB(DBHelper.KEY_IS_LOCKED_LEFT_DOOR,0);
+            dbHelper.saveValueInDB(idUser, DBHelper.KEY_IS_LOCKED_LEFT_DOOR,0);
 
             getActivity().getSupportFragmentManager().popBackStack();
 

@@ -4,9 +4,8 @@ public class Constants {
 
     public static class URL {
         private static final String HOST = "http://192.168.1.101:8082/";
-        public static final String GET_USERS = HOST + "/users";
-        public static final String GET_USER_FOR_NAME = HOST + "/users/1";
-        public static final String SAVE_NEW_USER = HOST + "/saveuser";
+        public static final String SAVE_NEW_USER = HOST + "/saveUser";
+        public static final String SAVE_USER_TIME = HOST + "/saveUserTime";
 
     }
 }

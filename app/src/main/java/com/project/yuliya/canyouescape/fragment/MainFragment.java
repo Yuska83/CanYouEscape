@@ -2,9 +2,7 @@ package com.project.yuliya.canyouescape.fragment;
 
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -19,6 +17,7 @@ import com.project.yuliya.canyouescape.helper.DBHelper;
 public class MainFragment extends Fragment {
 
     public static final String TAG = "MyLog";
+    int idUser;
     public String fragmentName;
     DBHelper dbHelper;
     Context context;
@@ -50,16 +49,15 @@ public class MainFragment extends Fragment {
     public void onResume() {
         super.onResume();
         BusProvider.getInstance().register(this);
-        //dbHelper = new DBHelper(context);
         messageBox.setText("");
-        dbHelper.saveFragmentNameInDB(fragmentName);
+        dbHelper.saveValueInDB(idUser, DBHelper.KEY_FRAGMENT_NAME, fragmentName);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         BusProvider.getInstance().unregister(this);
-        dbHelper.saveFragmentNameInDB(fragmentName);
+        dbHelper.saveValueInDB(idUser, DBHelper.KEY_FRAGMENT_NAME, fragmentName);
     }
 
 }

@@ -40,6 +40,7 @@ public class LeftRoomFragment extends MainFragment implements View.OnClickListen
             context = view.getContext();
             dbHelper = new DBHelper(context);
             tool = (ToolFragment) getFragmentManager().findFragmentById(R.id.tool_fragment);
+            idUser = tool.idRowUser;
 
             myLayout = (RelativeLayout)view.findViewById(R.id.LRLayout);
             messageBox = (TextView)view.findViewById(R.id.message);
@@ -58,11 +59,11 @@ public class LeftRoomFragment extends MainFragment implements View.OnClickListen
             mirror.setOnClickListener(this);
             key.setOnClickListener(this);
 
-            if(dbHelper.getValue(DBHelper.KEY_IS_MIRROR)==0)
+            if(dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_IS_MIRROR)==0)
             {
                 mirror.setImageDrawable(getResources().getDrawable(R.drawable.mirror2));
                 mirror.setEnabled(false);
-                if(dbHelper.getValue(DBHelper.KEY_IS_KEY_HATCH)==1)
+                if(dbHelper.getValueIntFromDB(idUser,DBHelper.KEY_IS_KEY_HATCH)==1)
                     key.setVisibility(View.GONE);
                 else
                     key.setVisibility(View.VISIBLE);
@@ -119,9 +120,9 @@ public class LeftRoomFragment extends MainFragment implements View.OnClickListen
         {
             MediaPlayer.create(context, R.raw.shurshanie).start();
 
-            int countTouch = dbHelper.getValue(DBHelper.KEY_COUNT_TOUCH_TREE);
+            int countTouch = dbHelper.getValueIntFromDB(idUser,DBHelper.KEY_COUNT_TOUCH_TREE);
             countTouch++;
-            dbHelper.saveInDB(DBHelper.KEY_COUNT_TOUCH_TREE, countTouch);
+            dbHelper.saveValueInDB(idUser,DBHelper.KEY_COUNT_TOUCH_TREE, countTouch);
 
             if(countTouch>3) return;
 
@@ -162,7 +163,7 @@ public class LeftRoomFragment extends MainFragment implements View.OnClickListen
             cable.setVisibility(View.GONE);
             BusProvider.getInstance().post(new ToolChangeEvent(ToolName.Cable, 1, Action.Found));
 
-            dbHelper.saveInDB(DBHelper.KEY_CABLE, 1);
+            dbHelper.saveValueInDB(idUser, DBHelper.KEY_CABLE, 1);
 
             MediaPlayer.create(context, R.raw.miscmetal).start();
             messageBox.setText(R.string.msg_cable);
@@ -181,7 +182,7 @@ public class LeftRoomFragment extends MainFragment implements View.OnClickListen
             hammer.setVisibility(View.GONE);
             BusProvider.getInstance().post(new ToolChangeEvent(ToolName.Hammer, 2, Action.Found));
 
-            dbHelper.saveInDB(DBHelper.KEY_HAMMER, 1);
+            dbHelper.saveValueInDB(idUser,DBHelper.KEY_HAMMER, 1);
 
             MediaPlayer.create(context, R.raw.miscmetal).start();
             messageBox.setText(R.string.msg_hammer);
@@ -198,8 +199,8 @@ public class LeftRoomFragment extends MainFragment implements View.OnClickListen
         {
             BusProvider.getInstance().post(new ToolChangeEvent(ToolName.KeyForHatch, 3, Action.Found));
 
-            dbHelper.saveInDB(DBHelper.KEY_HATCH_KEY, 1);
-            dbHelper.saveInDB(DBHelper.KEY_IS_KEY_HATCH, 1);
+            dbHelper.saveValueInDB(idUser, DBHelper.KEY_HATCH_KEY, 1);
+            dbHelper.saveValueInDB(idUser, DBHelper.KEY_IS_KEY_HATCH, 1);
 
             key.setVisibility(View.INVISIBLE);
             mirror.setEnabled(false);
@@ -220,7 +221,7 @@ public class LeftRoomFragment extends MainFragment implements View.OnClickListen
             if (((RadioButton)tool.RBG.getChildAt(2)).isChecked())
             {
                 BusProvider.getInstance().post(new ToolChangeEvent(ToolName.Hammer, 2 , Action.Used));
-                dbHelper.saveInDB(DBHelper.KEY_HAMMER, 0);
+                dbHelper.saveValueInDB(idUser, DBHelper.KEY_HAMMER, 0);
 
                 mirror.setImageDrawable(getResources().getDrawable(R.drawable.mirror2));
                 mirror.setEnabled(false);
@@ -230,7 +231,7 @@ public class LeftRoomFragment extends MainFragment implements View.OnClickListen
                 key.setVisibility(View.VISIBLE);
                 key.setEnabled(true);
 
-                dbHelper.saveInDB(DBHelper.KEY_IS_MIRROR, 0);
+                dbHelper.saveValueInDB(idUser, DBHelper.KEY_IS_MIRROR, 0);
 
             }
             else

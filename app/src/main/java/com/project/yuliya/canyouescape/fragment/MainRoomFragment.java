@@ -4,7 +4,6 @@ package com.project.yuliya.canyouescape.fragment;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +40,7 @@ public class MainRoomFragment extends MainFragment implements View.OnClickListen
             context = view.getContext();
             dbHelper = new DBHelper(context);
             tool = (ToolFragment) getFragmentManager().findFragmentById(R.id.tool_fragment);
+            idUser = tool.idRowUser;
 
             mainDoor = (ImageView) view.findViewById(R.id.mainDoor);
             leftDoor = (ImageView) view.findViewById(R.id.leftDoor);
@@ -61,7 +61,7 @@ public class MainRoomFragment extends MainFragment implements View.OnClickListen
             messageBox.setOnClickListener(this);
             myLayout.setOnClickListener(this);
 
-            if(dbHelper.getValue(DBHelper.KEY_IS_TABLE_MOVE)==1)
+            if(dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_IS_TABLE_MOVE)==1)
             {
                 table.setVisibility(View.GONE);
                 table2.setVisibility(View.VISIBLE);
@@ -111,10 +111,10 @@ public class MainRoomFragment extends MainFragment implements View.OnClickListen
         {
             if (((RadioButton)tool.RBG.getChildAt(5)).isChecked())
             {
-
                 MediaPlayer.create(context, R.raw.doorclose).start();
 
                 Intent intent = new Intent(context, GameOverActivity.class);
+                intent.putExtra("idUser", idUser);
                 startActivity(intent);
 
             } else {
@@ -141,7 +141,7 @@ public class MainRoomFragment extends MainFragment implements View.OnClickListen
     private void onClickTable() {
         try
         {
-            Integer countTouch = dbHelper.getValue(DBHelper.KEY_COUNT_TOUCH_TABLE);
+            Integer countTouch = dbHelper.getValueIntFromDB(idUser,DBHelper.KEY_COUNT_TOUCH_TABLE);
             Log.d(TAG, "countTouch = " + countTouch);
 
             if (countTouch == 0) {
@@ -151,10 +151,10 @@ public class MainRoomFragment extends MainFragment implements View.OnClickListen
                 MediaPlayer.create(context, R.raw.yaschiktumbochki).start();
                 MediaPlayer.create(context, R.raw.miscmetal).start();
                 messageBox.setText(R.string.msg_key1);
-                dbHelper.saveInDB(dbHelper.KEY_RIGHT_DOOR_KEY, 1);
+                dbHelper.saveValueInDB(idUser,dbHelper.KEY_RIGHT_DOOR_KEY, 1);
 
                 countTouch++;
-                dbHelper.saveInDB(dbHelper.KEY_COUNT_TOUCH_TABLE, countTouch);
+                dbHelper.saveValueInDB(idUser,dbHelper.KEY_COUNT_TOUCH_TABLE, countTouch);
 
                 return;
             }
@@ -175,13 +175,13 @@ public class MainRoomFragment extends MainFragment implements View.OnClickListen
                 hatch.setEnabled(true);
 
                 countTouch++;
-                dbHelper.saveInDB(dbHelper.KEY_COUNT_TOUCH_TABLE, countTouch);
-                dbHelper.saveInDB(dbHelper.KEY_IS_TABLE_MOVE, 1);
+                dbHelper.saveValueInDB(idUser,dbHelper.KEY_COUNT_TOUCH_TABLE, countTouch);
+                dbHelper.saveValueInDB(idUser,dbHelper.KEY_IS_TABLE_MOVE, 1);
                 return;
             }
 
             countTouch++;
-            dbHelper.saveInDB(dbHelper.KEY_COUNT_TOUCH_TABLE, countTouch);
+            dbHelper.saveValueInDB(idUser,dbHelper.KEY_COUNT_TOUCH_TABLE, countTouch);
 
         }
         catch (Exception e)

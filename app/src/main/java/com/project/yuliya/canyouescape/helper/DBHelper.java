@@ -1,12 +1,13 @@
 package com.project.yuliya.canyouescape.helper;
 
-import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.project.yuliya.canyouescape.forserver.User;
 
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -22,6 +23,10 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TABLE = "game";
 
     public static final String KEY_ID = "_id";
+    public static final String KEY_USER_IS_CURRENT = "UserIsCurrent";
+    public static final String KEY_USER_ID = "UserId";
+    public static final String KEY_USER_NAME = "UserName";
+    public static final String KEY_USER_TIME = "UserTime";
     public static final String KEY_FRAGMENT_NAME = "FragmentName";
     public static final String KEY_IS_LOCKED_LEFT_DOOR = "IsLockedLeftDoor";
     public static final String KEY_IS_LOCKED_RIGHT_DOOR = "IsLockedRightDoor";
@@ -58,10 +63,14 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        Log.d(TAG, "Enter onCreate");
+        Log.d(TAG, "Enter onCreateDB");
 
 
         db.execSQL("create table " + TABLE + "(" + KEY_ID + " integer primary key,"
+                + KEY_USER_ID + " int,"
+                + KEY_USER_NAME + " String,"
+                + KEY_USER_TIME + " String,"
+                + KEY_USER_IS_CURRENT + " int,"
                 + KEY_FRAGMENT_NAME + " String,"
                 + KEY_CABLE + " int,"
                 + KEY_IS_CABLE + " int,"
@@ -99,14 +108,26 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public void fillDB() {
+    public long fillDB(int UserId, String UserName) {
 
+        long idRow=-1;
         try {
-            database = getWritableDatabase();
+            database = this.getWritableDatabase();
+
+            if (database != null) {
+
+                ContentValues newValues = new ContentValues();
+                newValues.put(KEY_USER_IS_CURRENT, 0);
+                database.update(TABLE, newValues, null, null);
+            }
 
             if (database != null) {
 
                 contentValues = new ContentValues();
+                contentValues.put(KEY_USER_ID,UserId);
+                contentValues.put(KEY_USER_NAME,UserName);
+                contentValues.put(KEY_USER_TIME,"0");
+                contentValues.put(KEY_USER_IS_CURRENT,1);
                 contentValues.put(KEY_FRAGMENT_NAME, "MainRoomFragment");
                 contentValues.put(KEY_IS_LOCKED_LEFT_DOOR, 1);
                 contentValues.put(KEY_IS_LOCKED_RIGHT_DOOR, 1);
@@ -132,52 +153,113 @@ public class DBHelper extends SQLiteOpenHelper {
                 contentValues.put(KEY_RIGHT_DOOR_KEY, 0);
                 contentValues.put(KEY_MAIN_KEY, 0);
 
-                long idRoow = database.insert(TABLE, null, contentValues);
+                idRow = database.insert(TABLE, null, contentValues);
 
-                Log.d(TAG, String.valueOf(idRoow));
+                Log.d(TAG, String.valueOf("idRow = " + idRow));
                 database.close();
-            } else
 
-                Log.d(TAG, "ошибка fillDB");
-
+                showDB();
+            }
+            else
+                Log.d(TAG, "Error fillDB");
 
         } catch (Exception e) {
-            Log.d(TAG, " ошибка ", e);
-
+            Log.d(TAG, " Error  ", e);
+        } finally {
+            if (database != null) database.close();
+            return idRow;
         }
 
-        showDB();
 
     }
 
-    public void saveInDB(String key, int value) {
+    public User getCurrentUser() {
+
+        User currentUser =null;
+        try {
+            database = this.getWritableDatabase();
+
+            if (database != null) {
+
+                cursor = database.query(TABLE, null,
+                        KEY_USER_IS_CURRENT + " = ?", new String[]{String.valueOf(1)},
+                        null, null, null);
+
+                if (cursor.moveToFirst()) {
+
+                    currentUser = new User();
+                    currentUser.setLogin(cursor.getString(cursor.getColumnIndex(KEY_USER_NAME)));
+                    currentUser.setIdUser(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
+
+                    Log.d(TAG, "CurrentUser : Login = " + currentUser.getLogin() + ", IdUser = " + currentUser.getIdUser());
+                } else
+                    Log.d(TAG, "0 rows in getValue");
+
+                cursor.close();
+                database.close();
+
+
+            } else
+                Log.d(TAG, "Error getValue");
+
+        } catch (Exception e) {
+            Log.d(TAG, "Error ", e);
+        } finally {
+            if (database != null) database.close();
+            if (cursor != null) cursor.close();
+            return currentUser;
+        }
+
+
+    }
+
+
+    public void saveValueInDB(int id, String key, int value) {
         try {
             database = this.getWritableDatabase();
 
             if (database != null) {
 
                 ContentValues newValues = new ContentValues();
-
                 newValues.put(key, value);
-
-                String WHERE = KEY_ID + "=" + String.valueOf(1);
-
+                String WHERE = KEY_ID + "=" + String.valueOf(id);
                 database.update(TABLE, newValues, WHERE, null);
-
                 database.close();
 
             } else
-                Log.d(TAG, "ошибка saveInDB");
+                Log.d(TAG, "Error saveInDB");
         } catch (Exception e) {
-            Log.d(TAG, "ошибка ", e);
+            Log.d(TAG, "Error ", e);
         } finally {
             if (database != null) database.close();
         }
 
     }
 
+    public void saveValueInDB(int id, String key, String value) {
+        try {
+            database = this.getWritableDatabase();
 
-    public int getValue(String key) {
+            if (database != null) {
+                ContentValues newValues = new ContentValues();
+                newValues.put(key, value);
+                String WHERE = KEY_ID + "=" + String.valueOf(id);
+                database.update(TABLE, newValues, WHERE, null);
+                database.close();
+
+                Log.d(TAG, "SaveInDb : "  + ", key = " + key + ", value = " + value);
+
+            } else
+                Log.d(TAG, "Error SaveInDB");
+        } catch (Exception e) {
+            Log.d(TAG, "Error ", e);
+        } finally {
+            if (database != null) database.close();
+        }
+
+    }
+
+    public int getValueIntFromDB(int id, String key) {
         int value = -1;
 
         try {
@@ -186,28 +268,25 @@ public class DBHelper extends SQLiteOpenHelper {
             if (database != null) {
 
                 cursor = database.query(TABLE, new String[]{key},
-                        KEY_ID + " = ?", new String[]{String.valueOf(1)},
+                        KEY_ID + " = ?", new String[]{String.valueOf(id)},
                         null, null, null);
 
                 if (cursor.moveToFirst()) {
 
                     value = cursor.getInt(cursor.getColumnIndex(key));
 
-                    Log.d(TAG, "ID = " + 1 + ", key = " + key + ", value = " + String.valueOf(value));
+                    Log.d(TAG, "ID = " + id + ", key = " + key + ", value = " + String.valueOf(value));
                 } else
-                    Log.d(TAG, "0 roows in getValue");
+                    Log.d(TAG, "0 rows in getValue");
 
                 cursor.close();
                 database.close();
+
             } else
-                Log.d(TAG, "ошибка getValue");
-
-
-            return value;
+                Log.d(TAG, "Error getValue");
 
         } catch (Exception e) {
-            Log.d(TAG, "ошибка ", e);
-            return value;
+            Log.d(TAG, "Error ", e);
         } finally {
             if (database != null) database.close();
             if (cursor != null) cursor.close();
@@ -217,30 +296,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    public void saveFragmentNameInDB(String value) {
-        try {
-            database = this.getWritableDatabase();
 
-            if (database != null) {
-                ContentValues newValues = new ContentValues();
-                newValues.put(KEY_FRAGMENT_NAME, value);
-                String WHERE = KEY_ID + "=" + String.valueOf(1);
-                database.update(TABLE, newValues, WHERE, null);
-                database.close();
-
-                Log.d(TAG, "SaveName : "  + ", key = " + KEY_FRAGMENT_NAME + ", value = " + String.valueOf(value));
-
-            } else
-                Log.d(TAG, "ошибка saveNameInDB");
-        } catch (Exception e) {
-            Log.d(TAG, "ошибка ", e);
-        } finally {
-            if (database != null) database.close();
-        }
-
-    }
-
-    public String getFragmentNameFromDB() {
+    public String getValueStringFromDB(int id, String key) {
 
         String value = "";
 
@@ -249,29 +306,27 @@ public class DBHelper extends SQLiteOpenHelper {
 
             if (database != null) {
 
-                cursor = database.query(TABLE, new String[]{KEY_FRAGMENT_NAME},
-                        KEY_ID + " = ?", new String[]{String.valueOf(1)},
+                cursor = database.query(TABLE, new String[]{key},
+                        KEY_ID + " = ?", new String[]{String.valueOf(id)},
                         null, null, null);
 
                 if (cursor.moveToFirst()) {
 
-                    value = cursor.getString(cursor.getColumnIndex(KEY_FRAGMENT_NAME));
+                    value = cursor.getString(cursor.getColumnIndex(key));
 
-                    Log.d(TAG, "GetName :  "  + ", key = " + KEY_FRAGMENT_NAME + ", value = " + value);
+                    Log.d(TAG, "getValueStringFromDB :  "  + ", key = " + key + ", value = " + value);
                 } else
-                    Log.d(TAG, "0 roows in getValue");
+                    Log.d(TAG, "0 rows in getValueStringFromDB");
 
                 cursor.close();
                 database.close();
 
             } else
-                Log.d(TAG, "ошибка getValue");
+                Log.d(TAG, "Error getValueStringFromDB");
 
-            return value;
 
         } catch (Exception e) {
-            Log.d(TAG, "ошибка ", e);
-            return value;
+            Log.d(TAG, "Error ", e);
         } finally {
             if (database != null) database.close();
             if (cursor != null) cursor.close();
@@ -292,59 +347,37 @@ public class DBHelper extends SQLiteOpenHelper {
                 cursor = database.query(DBHelper.TABLE, null, null, null, null, null, null);
 
                 if (cursor.moveToFirst()) {
-                    int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
-                    int NameFragment = cursor.getColumnIndex(KEY_FRAGMENT_NAME);
-                    int IsLockedLeftDoor = cursor.getColumnIndex(KEY_IS_LOCKED_LEFT_DOOR);
-                    int IsLockedRightDoor = cursor.getColumnIndex(KEY_IS_LOCKED_RIGHT_DOOR);
-                    int IsLockedMainDoor = cursor.getColumnIndex(KEY_IS_LOCKED_MAIN_DOOR);
-                    int IsTableMove = cursor.getColumnIndex(KEY_IS_TABLE_MOVE);
-                    int IsLockedHatch = cursor.getColumnIndex(KEY_IS_LOCKED_HATCH);
-                    int IsLight = cursor.getColumnIndex(KEY_IS_LIGHT);
-                    int IsOnLight = cursor.getColumnIndex(KEY_ON_LIGHT);
-                    int IsPicture = cursor.getColumnIndex(KEY_IS_PICTURE);
-                    int LittleDoorOpen = cursor.getColumnIndex(KEY_SAFE_OPEN);
-                    int IsMirror = cursor.getColumnIndex(KEY_IS_MIRROR);
-                    int IsKeyLuchok = cursor.getColumnIndex(KEY_IS_KEY_HATCH);
-                    int IsCabel = cursor.getColumnIndex(KEY_IS_CABLE);
-                    int IsMolotok = cursor.getColumnIndex(KEY_IS_HAMMER);
-                    int IsHatchOpen = cursor.getColumnIndex(KEY_IS_HATCH_OPEN);
-                    int IsHatchKeyTake = cursor.getColumnIndex(KEY_IS_HATCH_KEY_TAKE);
-                    int CountTable = cursor.getColumnIndex(KEY_COUNT_TOUCH_TABLE);
-                    int CountTree = cursor.getColumnIndex(KEY_COUNT_TOUCH_TREE);
-                    int Molotok = cursor.getColumnIndex(KEY_HAMMER);
-                    int Cabel = cursor.getColumnIndex(KEY_CABLE);
-                    int KeyLuchok = cursor.getColumnIndex(KEY_HATCH_KEY);
-                    int KeyRightDoor = cursor.getColumnIndex(KEY_SAFE_KEY);
-                    int LittleKey = cursor.getColumnIndex(KEY_RIGHT_DOOR_KEY);
-                    int MainKey = cursor.getColumnIndex(KEY_MAIN_KEY);
-
 
                     do {
-                        Log.d(TAG, "ID = " + cursor.getInt(idIndex) +
-                                ", NameFragment = " + cursor.getString(NameFragment)+
-                                ", IsLockedLeftDoor = " + cursor.getInt(IsLockedLeftDoor) +
-                                ", IsLockedRightDoor = " + cursor.getInt(IsLockedRightDoor) +
-                                ", IsLockedMainDoor = " + cursor.getInt(IsLockedMainDoor) +
-                                ", IsTableMove = " + cursor.getInt(IsTableMove) +
-                                ", IsLockedHatch = " + cursor.getInt(IsLockedHatch) +
-                                ", IsLight = " + cursor.getInt(IsLight) +
-                                ", IsOnLight = " + cursor.getInt(IsOnLight) +
-                                ", IsPicture = " + cursor.getInt(IsPicture) +
-                                ", LittleDoorOpen = " + cursor.getInt(LittleDoorOpen) +
-                                ", IsMirror = " + cursor.getInt(IsMirror) +
-                                ", IsKeyLuchok = " + cursor.getInt(IsKeyLuchok) +
-                                ", IsCabel = " + cursor.getInt(IsCabel) +
-                                ", IsMolotok = " + cursor.getInt(IsMolotok) +
-                                ", IsHatchOpen = " + cursor.getInt(IsHatchOpen) +
-                                ", IsHatchKeyTake = " + cursor.getInt(IsHatchKeyTake) +
-                                ", CountTable = " + cursor.getInt(CountTable) +
-                                ", CountTree = " + cursor.getInt(CountTree) +
-                                ", Molotok = " + cursor.getInt(Molotok) +
-                                ", Cabel = " + cursor.getInt(Cabel) +
-                                ", KeyLuchok = " + cursor.getInt(KeyLuchok) +
-                                ", KeyRightDoor = " + cursor.getInt(KeyRightDoor) +
-                                ", MainKey = " + cursor.getInt(MainKey) +
-                                ", LittleKey = " + cursor.getInt(LittleKey));
+                        Log.d(TAG, "ID = " + cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_ID)) +
+                                ", UserId = " + cursor.getString(cursor.getColumnIndex(KEY_USER_ID))+
+                                ", UserName = " + cursor.getString(cursor.getColumnIndex(KEY_USER_NAME))+
+                                ", UserTime = " + cursor.getString(cursor.getColumnIndex(KEY_USER_TIME))+
+                                ", UserIsCurrent = " + cursor.getString(cursor.getColumnIndex(KEY_USER_IS_CURRENT))+
+                                ", NameFragment = " + cursor.getString(cursor.getColumnIndex(KEY_FRAGMENT_NAME))+
+                                ", IsLockedLeftDoor = " + cursor.getInt(cursor.getColumnIndex(KEY_IS_LOCKED_LEFT_DOOR)) +
+                                ", IsLockedRightDoor = " + cursor.getInt(cursor.getColumnIndex(KEY_IS_LOCKED_RIGHT_DOOR)) +
+                                ", IsLockedMainDoor = " + cursor.getInt(cursor.getColumnIndex(KEY_IS_LOCKED_MAIN_DOOR)) +
+                                ", IsTableMove = " + cursor.getInt(cursor.getColumnIndex(KEY_IS_TABLE_MOVE)) +
+                                ", IsLockedHatch = " + cursor.getInt(cursor.getColumnIndex(KEY_IS_LOCKED_HATCH)) +
+                                ", IsLight = " + cursor.getInt(cursor.getColumnIndex(KEY_IS_LIGHT)) +
+                                ", OnLight = " + cursor.getInt(cursor.getColumnIndex(KEY_ON_LIGHT)) +
+                                ", IsPicture = " + cursor.getInt(cursor.getColumnIndex(KEY_IS_PICTURE)) +
+                                ", SafeOpen = " + cursor.getInt(cursor.getColumnIndex(KEY_SAFE_OPEN)) +
+                                ", IsMirror = " + cursor.getInt(cursor.getColumnIndex(KEY_IS_MIRROR)) +
+                                ", IsKeyHatch = " + cursor.getInt(cursor.getColumnIndex(KEY_IS_KEY_HATCH)) +
+                                ", IsCable = " + cursor.getInt(cursor.getColumnIndex(KEY_IS_CABLE)) +
+                                ", IsHammer = " + cursor.getInt(cursor.getColumnIndex(KEY_IS_HAMMER)) +
+                                ", IsHatchOpen = " + cursor.getInt(cursor.getColumnIndex(KEY_IS_HATCH_OPEN)) +
+                                ", IsHatchKeyTake = " + cursor.getInt(cursor.getColumnIndex(KEY_IS_HATCH_KEY_TAKE)) +
+                                ", CountTouchTable = " + cursor.getInt(cursor.getColumnIndex(KEY_COUNT_TOUCH_TABLE)) +
+                                ", CountTouchTree = " + cursor.getInt(cursor.getColumnIndex(KEY_COUNT_TOUCH_TREE)) +
+                                ", Hammer = " + cursor.getInt(cursor.getColumnIndex(KEY_HAMMER)) +
+                                ", Cable = " + cursor.getInt(cursor.getColumnIndex(KEY_CABLE)) +
+                                ", KeyHatch = " + cursor.getInt(cursor.getColumnIndex(KEY_HATCH_KEY)) +
+                                ", KeyRightDoor = " + cursor.getInt(cursor.getColumnIndex(KEY_RIGHT_DOOR_KEY)) +
+                                ", MainKey = " + cursor.getInt(cursor.getColumnIndex(KEY_MAIN_KEY)) +
+                                ", SafeKey = " + cursor.getInt(cursor.getColumnIndex(KEY_SAFE_KEY)));
                     } while (cursor.moveToNext());
                 } else
                     Log.d(TAG, "0 rows");
@@ -352,11 +385,11 @@ public class DBHelper extends SQLiteOpenHelper {
                 cursor.close();
                 database.close();
             } else
-                Log.d(TAG, "ошибка showDB ");
+                Log.d(TAG, "Error showDB ");
 
 
         } catch (Exception e) {
-            Log.d(TAG, "ошибка", e);
+            Log.d(TAG, "Error", e);
 
         } finally {
             if (database != null) database.close();

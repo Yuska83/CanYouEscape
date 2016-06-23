@@ -1,26 +1,31 @@
 package com.project.yuliya.canyouescape.activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.project.yuliya.canyouescape.R;
-import com.project.yuliya.canyouescape.forserver.UserTask;
+import com.project.yuliya.canyouescape.forserver.User;
+import com.project.yuliya.canyouescape.forserver.SaveNewUserTask;
 import com.project.yuliya.canyouescape.helper.DBHelper;
+
+import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = "MyLog";
     DBHelper dbHelper;
-    Button play;
-    EditText name;
+    Button play, changeUser;
+    EditText loginEditText;
+    TextView loginCurrentUser;
+
+    User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,25 +34,24 @@ public class LoginActivity extends AppCompatActivity {
 
         deleteDatabase(DBHelper.DATABASE_NAME);
         dbHelper = new DBHelper(this);
-        dbHelper.fillDB();
 
-        name = (EditText) findViewById(R.id.name);
+        loginEditText = (EditText) findViewById(R.id.loginNewUser);
+        loginCurrentUser = (TextView)findViewById(R.id.loginCurrentUser);
         play = (Button) findViewById(R.id.play);
-        play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        changeUser = (Button) findViewById(R.id.changeUser);
 
-                if(name.getText().equals("")) return;
 
-                UserTask task = new UserTask();
-                task.execute(name.getText().toString());
+        currentUser = dbHelper.getCurrentUser();
+        if(currentUser != null)
+        {
+            loginEditText.setVisibility(View.GONE);
+            loginCurrentUser.setVisibility(View.VISIBLE);
+            changeUser.setVisibility(View.VISIBLE);
 
-                MediaPlayer.create(v.getContext(), R.raw.buttonenter).start();
-                Intent intent = new Intent(v.getContext(), MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+            loginCurrentUser.setText(currentUser.getLogin());
+
+        }
+
 
         if(savedInstanceState==null)
             MediaPlayer.create(this, R.raw.wincheme).start();
@@ -55,4 +59,54 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    public void onClickChangePlayer(View view)
+    {
+        loginEditText.setVisibility(View.VISIBLE);
+    }
+
+
+    public void onClickPlay(View view)
+    {
+        long idUser = -1;
+        if(loginEditText.getVisibility()==View.VISIBLE)
+        {
+            if(loginEditText.getText().equals("")) return;
+
+
+            SaveNewUserTask task = new SaveNewUserTask();
+            task.execute(loginEditText.getText().toString());
+
+            try {
+                currentUser =(User) task.get();
+                idUser = dbHelper.fillDB((int)currentUser.getId(),currentUser.getLogin());
+
+                if(idUser != -1) {
+                    MediaPlayer.create(view.getContext(), R.raw.buttonenter).start();
+
+
+                }
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+        else
+            idUser = currentUser.getIdUser();
+
+        if(idUser!=-1)
+        {
+            Intent intent = new Intent(view.getContext(), MainActivity.class);
+            intent.putExtra("idUser", (int) idUser);
+            startActivity(intent);
+            finish();
+        }
+        else
+            Log.d(TAG,"Error : idUser = -1");
+
+
+    }
 }

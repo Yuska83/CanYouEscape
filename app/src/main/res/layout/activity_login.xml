@@ -15,23 +15,35 @@
         android:background="@drawable/door_login">
 
         <EditText
-            android:id="@+id/name"
+            android:id="@+id/loginNewUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:hint="Enter you name"
+            android:hint="@string/enter_you_name"
             android:layout_above="@+id/play"
             android:layout_alignLeft="@+id/play"
             android:layout_alignStart="@+id/play"
             android:layout_alignRight="@+id/play"
             android:layout_alignEnd="@+id/play" />
 
+        <TextView
+            android:id="@+id/loginCurrentUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="gssnshnsh"
+            android:visibility="invisible"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textSize="25dp"
+            android:textIsSelectable="true" />
+
 
         <Button
             android:id="@+id/play"
             android:layout_width="100dp"
             android:layout_height="50dp"
-            android:text="PLAY"
+            android:text="@string/play"
             android:layout_alignParentBottom="false"
             android:onClick="onClickPlay"
             style="@style/Animation.AppCompat.DropDownUp"
@@ -41,6 +53,19 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp" />
 
+        <Button
+            android:id="@+id/changeUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/change_player"
+            android:onClick="onClickChangePlayer"
+            style="@style/Animation.AppCompat.DropDownUp"
+            android:background="#2d9f70"
+            android:textSize="10dp"
+            android:layout_below="@+id/loginCurrentUser"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:visibility="invisible" />
 
 
     </RelativeLayout>

@@ -1,10 +1,8 @@
 package com.project.yuliya.canyouescape.fragment;
 
 
-import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +33,8 @@ public class SafetyBoxFragment extends MainFragment {
             view = inflater.inflate(R.layout.safety_box_fragment, container, false);
             context = view.getContext();
             dbHelper = new DBHelper(context);
+            tool = (ToolFragment) getFragmentManager().findFragmentById(R.id.tool_fragment);
+            idUser = tool.idRowUser;
 
             messageBox = (TextView) view.findViewById(R.id.message);
             picture =(FrameLayout) view.findViewById(R.id.pic);
@@ -44,7 +44,7 @@ public class SafetyBoxFragment extends MainFragment {
                 public void onClick(View view) {
 
                     BusProvider.getInstance().post(new ToolChangeEvent(ToolName.KeyMain, 5, Action.Found));
-                    dbHelper.saveInDB(DBHelper.KEY_MAIN_KEY, 1);
+                    dbHelper.saveValueInDB(idUser, DBHelper.KEY_MAIN_KEY, 1);
 
                     MediaPlayer.create(context, R.raw.miscmetal).start();
                     messageBox.setText(R.string.msg_key4);

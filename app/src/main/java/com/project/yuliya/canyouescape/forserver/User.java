@@ -1,13 +1,12 @@
 package com.project.yuliya.canyouescape.forserver;
 
-import java.sql.Time;
-
 
 public class User {
 
     private long id;
     private String login;
-    private Time time;
+    private long time;
+    private int idUser;
 
     public User()
     {
@@ -16,7 +15,7 @@ public class User {
     public User(String login)
     {
         this.login = login;
-        this.time = null;
+        this.time = 0;
     }
 
     public long getId() {
@@ -36,11 +35,19 @@ public class User {
     }
 
 
-    public Time getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(Time time) {
+    public void setTime(long time) {
         this.time = time;
+    }
+
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
     }
 }

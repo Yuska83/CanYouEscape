@@ -35,6 +35,7 @@ public class HatchFragment extends MainFragment implements View.OnClickListener{
             context = view.getContext();
             dbHelper = new DBHelper(context);
             tool = (ToolFragment) getFragmentManager().findFragmentById(R.id.tool_fragment);
+            idUser = tool.idRowUser;
 
             myLayout = (RelativeLayout) view.findViewById(R.id.hatchLayout);
             messageBox = (TextView)view.findViewById(R.id.message);
@@ -48,11 +49,11 @@ public class HatchFragment extends MainFragment implements View.OnClickListener{
             cables.setOnClickListener(this);
             key.setOnClickListener(this);
 
-            if (dbHelper.getValue(DBHelper.KEY_IS_HATCH_OPEN) == 1)
+            if (dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_IS_HATCH_OPEN) == 1)
             {
                 hatchBackground.setImageDrawable(getResources().getDrawable(R.drawable.hatch_open));
 
-                if(dbHelper.getValue(DBHelper.KEY_IS_LIGHT) == 1) {
+                if(dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_IS_LIGHT) == 1) {
                     cables.setImageDrawable(getResources().getDrawable(R.drawable.cables));
                     cables.setEnabled(false);
                 }
@@ -62,7 +63,7 @@ public class HatchFragment extends MainFragment implements View.OnClickListener{
 
                 }
 
-                if (dbHelper.getValue(DBHelper.KEY_IS_HATCH_KEY_TAKE) == 1)
+                if (dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_IS_HATCH_KEY_TAKE) == 1)
                         key.setVisibility(View.GONE);
 
 
@@ -114,8 +115,8 @@ public class HatchFragment extends MainFragment implements View.OnClickListener{
             {
                 BusProvider.getInstance().post(new ToolChangeEvent(ToolName.KeyForHatch, 3, Action.Used));
 
-                dbHelper.saveInDB(DBHelper.KEY_HATCH_KEY, 0);
-                dbHelper.saveInDB(DBHelper.KEY_IS_HATCH_OPEN,1);
+                dbHelper.saveValueInDB(idUser, DBHelper.KEY_HATCH_KEY, 0);
+                dbHelper.saveValueInDB(idUser, DBHelper.KEY_IS_HATCH_OPEN,1);
 
                 hatchBackground.setImageDrawable(getResources().getDrawable(R.drawable.hatch_open));
                 hatchLock.setEnabled(false);
@@ -144,8 +145,8 @@ public class HatchFragment extends MainFragment implements View.OnClickListener{
             {
                 BusProvider.getInstance().post(new ToolChangeEvent(ToolName.Cable, 1, Action.Used));
 
-                dbHelper.saveInDB(DBHelper.KEY_CABLE, 0);
-                dbHelper.saveInDB(DBHelper.KEY_IS_LIGHT, 1);
+                dbHelper.saveValueInDB(idUser, DBHelper.KEY_CABLE, 0);
+                dbHelper.saveValueInDB(idUser, DBHelper.KEY_IS_LIGHT, 1);
 
                 cables.setImageDrawable(getResources().getDrawable(R.drawable.cables));
                 cables.setEnabled(false);
@@ -171,9 +172,9 @@ public class HatchFragment extends MainFragment implements View.OnClickListener{
         {
             BusProvider.getInstance().post(new ToolChangeEvent(ToolName.KeyForSafe, 4, Action.Found));
 
-            dbHelper.saveInDB(DBHelper.KEY_SAFE_KEY, 1);
-            dbHelper.saveInDB(DBHelper.KEY_IS_LIGHT, 1);
-            dbHelper.saveInDB(DBHelper.KEY_IS_HATCH_KEY_TAKE, 1);
+            dbHelper.saveValueInDB(idUser, DBHelper.KEY_SAFE_KEY, 1);
+            dbHelper.saveValueInDB(idUser,DBHelper.KEY_IS_LIGHT, 1);
+            dbHelper.saveValueInDB(idUser, DBHelper.KEY_IS_HATCH_KEY_TAKE, 1);
 
             key.setVisibility(View.GONE);
 

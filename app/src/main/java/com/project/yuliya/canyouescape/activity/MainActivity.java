@@ -1,31 +1,24 @@
 package com.project.yuliya.canyouescape.activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.Keep;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.project.yuliya.canyouescape.EventBus.BusProvider;
-import com.project.yuliya.canyouescape.EventBus.ToolChangeEvent;
 import com.project.yuliya.canyouescape.R;
 import com.project.yuliya.canyouescape.fragment.CombinationLockFragment;
 import com.project.yuliya.canyouescape.fragment.HatchFragment;
 import com.project.yuliya.canyouescape.fragment.LeftDoorFragment;
 import com.project.yuliya.canyouescape.fragment.LeftRoomFragment;
-import com.project.yuliya.canyouescape.fragment.MainFragment;
 import com.project.yuliya.canyouescape.fragment.MainRoomFragment;
 import com.project.yuliya.canyouescape.fragment.RightDoorFragment;
 import com.project.yuliya.canyouescape.fragment.RightRoomFragment;
 import com.project.yuliya.canyouescape.fragment.SafetyBoxFragment;
 import com.project.yuliya.canyouescape.fragment.ToolFragment;
 import com.project.yuliya.canyouescape.helper.DBHelper;
-import com.squareup.otto.Bus;
+
+import java.util.Date;
+
 
 public class MainActivity extends AppCompatActivity implements ToolFragment.OnInstrumentalFragmentListener {
 
@@ -34,18 +27,21 @@ public class MainActivity extends AppCompatActivity implements ToolFragment.OnIn
     FragmentTransaction fragmentTransaction;
 
     String nameCurrentFragment;
-    int RadioButtonSelectedId;
-
+    public int idUser;
+    public long time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        idUser =getIntent().getExtras().getInt("idUser");
+
         setContentView(R.layout.activity_main);
         dbHelper = new DBHelper(this);
+        time = new Date().getTime();// запоминаем текущее время
 
         try {
-            nameCurrentFragment = dbHelper.getFragmentNameFromDB();
+            nameCurrentFragment = dbHelper.getValueStringFromDB(idUser,DBHelper.KEY_FRAGMENT_NAME);
 
             if (savedInstanceState == null) {
 
@@ -63,8 +59,7 @@ public class MainActivity extends AppCompatActivity implements ToolFragment.OnIn
                     case "RightRoomFragment": {
                         fragmentTransaction
                                 .replace(R.id.main_fragment_container, new RightDoorFragment()).addToBackStack(null)
-                                .replace(R.id.main_fragment_container, new RightRoomFragment()).addToBackStack(null)
-                                .commit();
+                                .replace(R.id.main_fragment_container, new RightRoomFragment()).addToBackStack(null);
                         break;
                     }
                     case "LeftDoorFragment": {
@@ -104,8 +99,31 @@ public class MainActivity extends AppCompatActivity implements ToolFragment.OnIn
 
     }
 
-    //методы интерфейсов********************************************************************
+    //метод интерфейса, передает значение ID пользователя********************************************************************
     @Override
-    public void setRadioButtonSelectedId(int RadioButtonSelectedId) {this.RadioButtonSelectedId = RadioButtonSelectedId;}
+    public int getIdRowUserInDb() {
+        return this.idUser;
+    }
 
+
+    //***************************************************************************************
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        //считаем прошедшее время и записываем его в базу
+        time = new Date().getTime() - time;
+        Log.d(TAG,"time = " +String.valueOf(time));
+
+        long oldTime = Long.valueOf(dbHelper.getValueStringFromDB(idUser,DBHelper.KEY_USER_TIME));
+
+        time += oldTime;
+        dbHelper.saveValueInDB(idUser,DBHelper.KEY_USER_TIME,String.valueOf(time));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        time = new Date().getTime();//запускаем счет времени
+    }
 }

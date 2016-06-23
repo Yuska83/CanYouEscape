@@ -20,7 +20,7 @@ import com.project.yuliya.canyouescape.helper.DBHelper;
 import com.squareup.otto.Subscribe;
 
 
-public class ToolFragment extends Fragment implements View.OnClickListener {
+public class ToolFragment extends Fragment {
 
     public static final String TAG = "MyLog";
     private static final String KEY_LIST_EVENT = "ListEvent";
@@ -29,12 +29,13 @@ public class ToolFragment extends Fragment implements View.OnClickListener {
     RadioButton RB1,RB2,RB3,RB4,RB5,RB6;
     Context context;
     DBHelper dbHelper;
+    int idRowUser;
 
     //для взаимодействия с MainActivity
     private OnInstrumentalFragmentListener mListener;
 
     public interface OnInstrumentalFragmentListener {
-        void setRadioButtonSelectedId(int RadioButtonSelectedId);
+        int getIdRowUserInDb();
     }
 
     @Override
@@ -46,20 +47,13 @@ public class ToolFragment extends Fragment implements View.OnClickListener {
 
         RBG = (RadioGroup) view.findViewById(R.id.RBGroup);
 
-        RB1 = (RadioButton) view.findViewById(R.id.RB1);
+       /* RB1 = (RadioButton) view.findViewById(R.id.RB1);
         RB2 = (RadioButton) view.findViewById(R.id.RB2);
         RB3 = (RadioButton) view.findViewById(R.id.RB3);
         RB4 = (RadioButton) view.findViewById(R.id.RB4);
         RB5 = (RadioButton) view.findViewById(R.id.RB5);
-        RB6 = (RadioButton) view.findViewById(R.id.RB6);
+        RB6 = (RadioButton) view.findViewById(R.id.RB6);*/
 
-
-        RB1.setOnClickListener(this);
-        RB2.setOnClickListener(this);
-        RB3.setOnClickListener(this);
-        RB4.setOnClickListener(this);
-        RB5.setOnClickListener(this);
-        RB6.setOnClickListener(this);
 
         fillTools();
 
@@ -98,7 +92,7 @@ public class ToolFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    @Override
+   /* @Override
     public void onClick(View view) {
 
         if (mListener != null) {
@@ -114,12 +108,13 @@ public class ToolFragment extends Fragment implements View.OnClickListener {
         }
 
     }
-
+*/
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnInstrumentalFragmentListener) {
             mListener = (OnInstrumentalFragmentListener) context;
+            idRowUser = mListener.getIdRowUserInDb();
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnInstrumentalFragmentListener");
@@ -146,32 +141,32 @@ public class ToolFragment extends Fragment implements View.OnClickListener {
     }
 
     private void fillTools() {
-        if(dbHelper.getValue(DBHelper.KEY_RIGHT_DOOR_KEY) == 1)
+        if(dbHelper.getValueIntFromDB(idRowUser, DBHelper.KEY_RIGHT_DOOR_KEY) == 1)
         {
             RBG.getChildAt(0).setEnabled(true);
             RBG.getChildAt(0).setBackground(this.getResources().getDrawable(R.drawable.key_right_door));
         }
-        if(dbHelper.getValue(DBHelper.KEY_HAMMER) == 1)
+        if(dbHelper.getValueIntFromDB(idRowUser, DBHelper.KEY_HAMMER) == 1)
         {
             RBG.getChildAt(2).setEnabled(true);
             RBG.getChildAt(2).setBackground(this.getResources().getDrawable(R.drawable.hammer));
         }
-        if(dbHelper.getValue(DBHelper.KEY_CABLE) == 1)
+        if(dbHelper.getValueIntFromDB(idRowUser, DBHelper.KEY_CABLE) == 1)
         {
             RBG.getChildAt(1).setEnabled(true);
             RBG.getChildAt(1).setBackground(this.getResources().getDrawable(R.drawable.cable_little));
         }
-        if(dbHelper.getValue(DBHelper.KEY_HATCH_KEY) == 1)
+        if(dbHelper.getValueIntFromDB(idRowUser, DBHelper.KEY_HATCH_KEY) == 1)
         {
             RBG.getChildAt(3).setEnabled(true);
             RBG.getChildAt(3).setBackground(this.getResources().getDrawable(R.drawable.key_hatch));
         }
-        if(dbHelper.getValue(DBHelper.KEY_SAFE_KEY) == 1)
+        if(dbHelper.getValueIntFromDB(idRowUser, DBHelper.KEY_SAFE_KEY) == 1)
         {
             RBG.getChildAt(4).setEnabled(true);
             RBG.getChildAt(4).setBackground(this.getResources().getDrawable(R.drawable.key_safe));
         }
-        if(dbHelper.getValue(DBHelper.KEY_MAIN_KEY) == 1)
+        if(dbHelper.getValueIntFromDB(idRowUser, DBHelper.KEY_MAIN_KEY) == 1)
         {
             RBG.getChildAt(5).setEnabled(true);
             RBG.getChildAt(5).setBackground(this.getResources().getDrawable(R.drawable.key_main));

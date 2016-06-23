@@ -29,6 +29,8 @@ public class LeftDoorFragment extends MainFragment implements View.OnClickListen
             view = inflater.inflate(R.layout.left_door_fragment, container, false);
             context = view.getContext();
             dbHelper = new DBHelper(context);
+            tool=(ToolFragment)getFragmentManager().findFragmentById(R.id.tool_fragment);
+            idUser = tool.idRowUser;
 
             myLayout = (RelativeLayout)view.findViewById(R.id.LDLayout);
             messageBox = (TextView)view.findViewById(R.id.message);
@@ -39,7 +41,7 @@ public class LeftDoorFragment extends MainFragment implements View.OnClickListen
             door.setOnClickListener(this);
             codeLock.setOnClickListener(this);
 
-            if(dbHelper.getValue(DBHelper.KEY_IS_LOCKED_LEFT_DOOR) == 0)
+            if(dbHelper.getValueIntFromDB(idUser,DBHelper.KEY_IS_LOCKED_LEFT_DOOR) == 0)
                 codeLock.setEnabled(false);
 
         }
@@ -67,7 +69,7 @@ public class LeftDoorFragment extends MainFragment implements View.OnClickListen
     private void onClickDoor() {
         try
         {
-            if (dbHelper.getValue(DBHelper.KEY_IS_LOCKED_LEFT_DOOR)==0) {
+            if (dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_IS_LOCKED_LEFT_DOOR)==0) {
 
                 MediaPlayer.create(context, R.raw.doorclose).start();
                 replaceFragment(new LeftRoomFragment());
@@ -88,7 +90,7 @@ public class LeftDoorFragment extends MainFragment implements View.OnClickListen
     private void onClickCodeLock() {
         try
         {
-            if(dbHelper.getValue(DBHelper.KEY_IS_LOCKED_LEFT_DOOR) ==0)
+            if(dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_IS_LOCKED_LEFT_DOOR) ==0)
             {
                 codeLock.setEnabled(false);
                 return;

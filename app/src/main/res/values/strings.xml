@@ -25,4 +25,7 @@
     <string name="msg_safe">Safe? Very bad(</string>
     <string name="msg_key4">Yay!! The key!!!</string>
     <string name="msg_hatch2">What electrician ?</string>
+    <string name="enter_you_name">Enter you name</string>
+    <string name="play">PLAY</string>
+    <string name="change_player">Change</string>
 </resources>

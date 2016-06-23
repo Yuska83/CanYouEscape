@@ -34,6 +34,7 @@ public class RightRoomFragment extends MainFragment implements View.OnClickListe
             context = view.getContext();
             dbHelper = new DBHelper(context);
             tool = (ToolFragment) getFragmentManager().findFragmentById(R.id.tool_fragment);
+            idUser = tool.idRowUser;
 
             myLayout = (RelativeLayout) view.findViewById(R.id.room3);
             messageBox = (TextView) view.findViewById(R.id.message);
@@ -48,14 +49,14 @@ public class RightRoomFragment extends MainFragment implements View.OnClickListe
             picture2.setOnClickListener(this);
             safe.setOnClickListener(this);
 
-            if (dbHelper.getValue(DBHelper.KEY_ON_LIGHT) == 1) {
+            if (dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_ON_LIGHT) == 1) {
                 myLayout.setBackground(this.getResources().getDrawable(R.drawable.room_right));
 
-                if (dbHelper.getValue(DBHelper.KEY_IS_PICTURE) == 0) {
+                if (dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_IS_PICTURE) == 0) {
                     picture.setVisibility(View.GONE);
                     picture2.setVisibility(View.VISIBLE);
                 }
-                if (dbHelper.getValue(DBHelper.KEY_SAFE_OPEN) == 1) {
+                if (dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_SAFE_OPEN) == 1) {
                     safe.setEnabled(false);
                 }
 
@@ -113,7 +114,7 @@ public class RightRoomFragment extends MainFragment implements View.OnClickListe
             MediaPlayer.create(context, R.raw.plate).start();
             picture.setVisibility(View.GONE);
             picture2.setVisibility(View.VISIBLE);
-            dbHelper.saveInDB(DBHelper.KEY_IS_PICTURE, 0);
+            dbHelper.saveValueInDB(idUser,DBHelper.KEY_IS_PICTURE, 0);
 
         } catch (Exception e) {
             Log.e(TAG, "onClickPicture:", e);
@@ -127,14 +128,14 @@ public class RightRoomFragment extends MainFragment implements View.OnClickListe
             if (((RadioButton) tool.RBG.getChildAt(4)).isChecked()) {
                 BusProvider.getInstance().post(new ToolChangeEvent(ToolName.KeyForSafe, 4, Action.Used));
 
-                dbHelper.saveInDB(DBHelper.KEY_SAFE_KEY, 0);
-                dbHelper.saveInDB(DBHelper.KEY_SAFE_OPEN, 1);
+                dbHelper.saveValueInDB(idUser,DBHelper.KEY_SAFE_KEY, 0);
+                dbHelper.saveValueInDB(idUser,DBHelper.KEY_SAFE_OPEN, 1);
 
                 MediaPlayer.create(context, R.raw.trashremove).start();
 
                 replaceFragment(new SafetyBoxFragment());
 
-                if (dbHelper.getValue(DBHelper.KEY_MAIN_KEY) == 1) safe.setEnabled(false);
+                if (dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_MAIN_KEY) == 1) safe.setEnabled(false);
 
             } else messageBox.setText(R.string.msg_safe);
 
