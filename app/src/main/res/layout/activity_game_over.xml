@@ -24,4 +24,50 @@
         android:textSize="50dp"
         android:textColor="#34393c"
         android:gravity="center_vertical|center_horizontal"/>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listViewUsers"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="49dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You"
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textSize="26dp" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_above="@+id/message"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="71dp"
+        android:id="@+id/linearLayout">
+
+        <TextView
+            android:id="@+id/numCurrentUser"
+            style="@style/MyListItem"
+            android:layout_weight="2"/>
+
+        <TextView
+            android:id="@+id/nameCurrentUser"
+            style="@style/MyListItem"
+            android:layout_weight="5"/>
+
+        <TextView
+            android:id="@+id/timeCurrentUser"
+            style="@style/MyListItem"
+            android:layout_weight="4"
+            android:gravity="right"
+            android:paddingRight="10dp" />
+    </LinearLayout>
 </RelativeLayout>
