@@ -56,9 +56,10 @@ public class RightRoomFragment extends MainFragment implements View.OnClickListe
                     picture.setVisibility(View.GONE);
                     picture2.setVisibility(View.VISIBLE);
                 }
-                if (dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_SAFE_OPEN) == 1) {
-                    safe.setEnabled(false);
-                }
+                if (dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_SAFE_OPEN) == 1
+                        && dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_MAIN_KEY) == 1)
+                            safe.setEnabled(false);
+
 
             } else {
                 myLayout.setBackground(this.getResources().getDrawable(R.drawable.roomblack));

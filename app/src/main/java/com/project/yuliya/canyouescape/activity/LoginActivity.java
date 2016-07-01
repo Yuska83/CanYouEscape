@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        deleteDatabase(DBHelper.DATABASE_NAME);
+        //deleteDatabase(DBHelper.DATABASE_NAME);
         dbHelper = new DBHelper(this);
 
         loginEditText = (EditText) findViewById(R.id.loginNewUser);
@@ -80,11 +80,9 @@ public class LoginActivity extends AppCompatActivity {
                 currentUser =(User) task.get();
                 idUser = dbHelper.fillDB((int)currentUser.getId(),currentUser.getLogin());
 
-                if(idUser != -1) {
+                if(idUser != -1)
                     MediaPlayer.create(view.getContext(), R.raw.buttonenter).start();
 
-
-                }
 
             } catch (InterruptedException e) {
                 e.printStackTrace();

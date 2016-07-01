@@ -9,9 +9,10 @@ import android.widget.ListView;
 
 import com.project.yuliya.canyouescape.R;
 import com.project.yuliya.canyouescape.adapter.usersArrayAdapter;
-import com.project.yuliya.canyouescape.forserver.SaveNewUserTask;
+import com.project.yuliya.canyouescape.forserver.Constants;
 import com.project.yuliya.canyouescape.forserver.User;
 import com.project.yuliya.canyouescape.forserver.getTopRateUsersTask;
+import com.project.yuliya.canyouescape.forserver.saveUserTimeTask;
 import com.project.yuliya.canyouescape.helper.DBHelper;
 
 import java.util.ArrayList;
@@ -22,7 +23,9 @@ public class GameOverActivity extends AppCompatActivity {
 
     public static final String TAG = "MyLog";
     DBHelper dbHelper;
-    int idUser;
+    int userId;
+    String userName;
+    long userTime;
     ListView listViewUsers;
 
 
@@ -31,16 +34,27 @@ public class GameOverActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_over);
 
-        dbHelper = new DBHelper(this);
-        idUser =getIntent().getExtras().getInt("idUser");
-
         listViewUsers = (ListView)findViewById(R.id.listViewUsers) ;
+        dbHelper = new DBHelper(this);
 
-        getTopRateUsersTask task = new getTopRateUsersTask();
-        task.execute();
+        userId =getIntent().getExtras().getInt("idUser");
+        userName = dbHelper.getValueStringFromDB(userId,DBHelper.KEY_USER_NAME);
+        userTime = Long.valueOf(dbHelper.getValueStringFromDB(userId,DBHelper.KEY_USER_TIME));
 
+        long id  =Long.valueOf( dbHelper.getValueIntFromDB(userId,DBHelper.KEY_USER_ID));
+
+        Log.d(Constants.TAG,"&&&id : "+ id+"userid : "+ userId+" login : "+userName +" time : "+userTime);
+
+        Date time = new Date(userTime);
+        Log.d(TAG,"EndTime = " + String.valueOf(time) + "FormTime = " + String.valueOf(userTime));
+
+
+        //отправляем на серер время игрока
+        new saveUserTimeTask().execute(new User(id,userName,userTime));
+
+        //запрашиваем рейтинг игроков
         try {
-            ArrayList<User> users =(ArrayList<User>) task.get();
+            ArrayList<User> users =(ArrayList<User>) new getTopRateUsersTask().execute().get();
 
             if(users!= null) {
                 ArrayAdapter<User> adapter = new usersArrayAdapter(this, users);
@@ -53,10 +67,7 @@ public class GameOverActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Long time = Long.valueOf(dbHelper.getValueStringFromDB(idUser,DBHelper.KEY_USER_TIME));
-        Date userTime = new Date(time);
 
-        Log.d(TAG,"EndTime = " + String.valueOf(time) + "FormTime = " + String.valueOf(userTime));
         MediaPlayer.create(this, R.raw.likovanietolpy).start();
     }
 }

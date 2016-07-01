@@ -15,9 +15,14 @@ public class User {
     public User(String login)
     {
         this.login = login;
-        this.time = 0;
     }
 
+    public User(long id,String login,long time)
+    {
+        this.id = id;
+        this.login = login;
+        this.time = time;
+    }
     public long getId() {
         return id;
     }

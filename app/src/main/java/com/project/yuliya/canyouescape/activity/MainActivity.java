@@ -124,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements ToolFragment.OnIn
     @Override
     protected void onResume() {
         super.onResume();
-        time = new Date().getTime();//запускаем счет времени
+        //запускаем счет времени
+        time = new Date().getTime();
     }
 }
