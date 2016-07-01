@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Can You Escape</string>
+    <string name="change_player">Сменить пользователя</string>
+    <string name="enter_you_name">Введите имя</string>
+    <string name="msg_Oh_not_reach">Эх, не дотянуться ((</string>
+    <string name="msg_cable">Кусок кабеля какой-то</string>
+    <string name="msg_close">Заперто!!!</string>
+    <string name="msg_dark">ООО, как тут темно !!!</string>
+    <string name="msg_fixed">Починил, теперь что-то заработает</string>
+    <string name="msg_hammer">Ещё и молоток? Ну и дерево</string>
+    <string name="msg_hatch">А это что?</string>
+    <string name="msg_inscription">Тут что-то написано..</string>
+    <string name="msg_it_can_be_moved">Он двигается!!</string>
+    <string name="msg_it_open">Оо, открылся</string>
+    <string name="msg_key1">Тут ключ!!!</string>
+    <string name="msg_key2">Ещё один ключ! Ну всё, на выход!!!</string>
+    <string name="msg_key3">Как долго я тебя искал!!!</string>
+    <string name="msg_key4">Ура!!! Еще ключ!!!</string>
+    <string name="msg_mirror">Зеркало</string>
+    <string name="msg_safe">Сейф? Совсем плохо((</string>
+    <string name="msg_tink">Дзынььь</string>
+    <string name="msg_tumbler">Не работает, что ли</string>
+    <string name="msg_tumbler1">Да будет свет</string>
+    <string name="msg_tumbler2">Электричество надо экономить </string>
+    <string name="msg_hatch2">Какой электрик это делал?</string>
+</resources>

@@ -30,8 +30,6 @@ public class getTopRateUsersTask extends AsyncTask<Void,Void,ArrayList<User>> {
 
             ArrayList<User> topRateUsers = usersResponse.getBody();
 
-            //ResponseEntity<? extends ArrayList<User>> responseEntity = template.getForObject(Constants.URL.GET_TOP_RATE_USERS,(Class<? extends ArrayList<User>>)ArrayList.class);
-
             return topRateUsers;
 
 

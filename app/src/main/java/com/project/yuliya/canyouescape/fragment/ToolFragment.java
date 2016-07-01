@@ -47,14 +47,6 @@ public class ToolFragment extends Fragment {
 
         RBG = (RadioGroup) view.findViewById(R.id.RBGroup);
 
-       /* RB1 = (RadioButton) view.findViewById(R.id.RB1);
-        RB2 = (RadioButton) view.findViewById(R.id.RB2);
-        RB3 = (RadioButton) view.findViewById(R.id.RB3);
-        RB4 = (RadioButton) view.findViewById(R.id.RB4);
-        RB5 = (RadioButton) view.findViewById(R.id.RB5);
-        RB6 = (RadioButton) view.findViewById(R.id.RB6);*/
-
-
         fillTools();
 
         return view;
@@ -92,23 +84,6 @@ public class ToolFragment extends Fragment {
 
     }
 
-   /* @Override
-    public void onClick(View view) {
-
-        if (mListener != null) {
-            switch (view.getId()) {
-                case R.id.RB1: mListener.setRadioButtonSelectedId(1);break;
-                case R.id.RB2: mListener.setRadioButtonSelectedId(2);break;
-                case R.id.RB3: mListener.setRadioButtonSelectedId(3);break;
-                case R.id.RB4: mListener.setRadioButtonSelectedId(4);break;
-                case R.id.RB5: mListener.setRadioButtonSelectedId(5);break;
-                case R.id.RB6: mListener.setRadioButtonSelectedId(6);break;
-
-            }
-        }
-
-    }
-*/
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

@@ -2,7 +2,7 @@
     <string name="app_name">Can You Escape</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 
     <string name="msg_close">Locked!!!</string>
     <string name="msg_inscription">Here is something written...</string>
@@ -26,6 +26,6 @@
     <string name="msg_key4">Yay!! The key!!!</string>
     <string name="msg_hatch2">What electrician ?</string>
     <string name="enter_you_name">Enter you name</string>
-    <string name="play">PLAY</string>
+    <string name="play" translatable="false">PLAY</string>
     <string name="change_player">Change</string>
 </resources>

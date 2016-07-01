@@ -47,7 +47,7 @@ public class usersArrayAdapter extends ArrayAdapter<User>{
         return listItem;
     }
 
-    private String printTime(long time)
+    public static String printTime(long time)
     {
         String strTime = "";
         Calendar calendar=Calendar.getInstance();

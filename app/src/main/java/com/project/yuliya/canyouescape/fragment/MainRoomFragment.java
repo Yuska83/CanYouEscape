@@ -67,6 +67,8 @@ public class MainRoomFragment extends MainFragment implements View.OnClickListen
                 table2.setVisibility(View.VISIBLE);
                 hatch.setEnabled(true);
             }
+            else
+            hatch.setEnabled(false);
 
 
             return view;
@@ -209,10 +211,7 @@ public class MainRoomFragment extends MainFragment implements View.OnClickListen
     }
 
     private void onClickHatch() {
-
-        if(!table.isEnabled())
             replaceFragment(new HatchFragment());
-
     }
 
 
