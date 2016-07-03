@@ -30,43 +30,30 @@
             android:id="@+id/loginCurrentUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="gssnshnsh"
             android:visibility="invisible"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:textSize="25dp"
-            android:textIsSelectable="true" />
+            android:textIsSelectable="true"
+            android:onClick="onClickCurrentUserName"
+            android:layout_marginLeft="10dp" />
 
 
         <Button
             android:id="@+id/play"
-            android:layout_width="100dp"
+            android:layout_width="130dp"
             android:layout_height="50dp"
             android:text="@string/play"
-            android:layout_alignParentBottom="false"
             android:onClick="onClickPlay"
             style="@style/Animation.AppCompat.DropDownUp"
             android:background="#88b7b6"
             android:textSize="20dp"
-            android:layout_centerVertical="true"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp" />
-
-        <Button
-            android:id="@+id/changeUser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/change_player"
-            android:onClick="onClickChangePlayer"
-            style="@style/Animation.AppCompat.DropDownUp"
-            android:background="#2d9f70"
-            android:textSize="10dp"
-            android:layout_below="@+id/loginCurrentUser"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:visibility="invisible" />
-
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="174dp"
+            android:layout_marginRight="10dp" />
 
     </RelativeLayout>
 

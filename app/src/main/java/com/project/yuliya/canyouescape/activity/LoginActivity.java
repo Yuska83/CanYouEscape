@@ -21,7 +21,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = "MyLog";
     DBHelper dbHelper;
-    Button play, changeUser;
+    Button play;
     EditText loginEditText;
     TextView loginCurrentUser;
 
@@ -38,16 +38,12 @@ public class LoginActivity extends AppCompatActivity {
         loginEditText = (EditText) findViewById(R.id.loginNewUser);
         loginCurrentUser = (TextView)findViewById(R.id.loginCurrentUser);
         play = (Button) findViewById(R.id.play);
-        changeUser = (Button) findViewById(R.id.changeUser);
-
 
         currentUser = dbHelper.getCurrentUser();
         if(currentUser != null)
         {
             loginEditText.setVisibility(View.GONE);
             loginCurrentUser.setVisibility(View.VISIBLE);
-            changeUser.setVisibility(View.VISIBLE);
-
             loginCurrentUser.setText(currentUser.getLogin());
 
         }
@@ -59,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void onClickChangePlayer(View view)
+    public void onClickCurrentUserName(View view)
     {
         loginEditText.setVisibility(View.VISIBLE);
     }

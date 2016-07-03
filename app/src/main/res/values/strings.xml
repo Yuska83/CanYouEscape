@@ -28,4 +28,5 @@
     <string name="enter_you_name">Enter you name</string>
     <string name="play" translatable="false">PLAY</string>
     <string name="change_player">Change</string>
+    <string name="you">You</string>
 </resources>

@@ -24,4 +24,5 @@
     <string name="msg_tumbler1">Да будет свет</string>
     <string name="msg_tumbler2">Электричество надо экономить </string>
     <string name="msg_hatch2">Какой электрик это делал?</string>
+    <string name="you">Вы : </string>
 </resources>
