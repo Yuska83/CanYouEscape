@@ -12,11 +12,12 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.project.yuliya.canyouescape.EventBus.BusProvider;
-import com.project.yuliya.canyouescape.EventBus.ToolChangeEvent;
+import com.project.yuliya.canyouescape.eventBus.BusProvider;
+import com.project.yuliya.canyouescape.eventBus.ToolChangeEvent;
 import com.project.yuliya.canyouescape.R;
-import com.project.yuliya.canyouescape.enums.Action;
-import com.project.yuliya.canyouescape.enums.ToolName;
+import com.project.yuliya.canyouescape.constans.Action;
+import com.project.yuliya.canyouescape.constans.ToolName;
+import com.project.yuliya.canyouescape.constans.dbKeys;
 import com.project.yuliya.canyouescape.helper.DBHelper;
 
 public class RightRoomFragment extends MainFragment implements View.OnClickListener {
@@ -28,13 +29,13 @@ public class RightRoomFragment extends MainFragment implements View.OnClickListe
                              Bundle savedInstanceState) {
 
         fragmentName = "RightRoomFragment";
-
+        Log.e(dbKeys.TAG,"onCreateRightRoomFragment:");
         try {
             view = inflater.inflate(R.layout.right_room_fragment, container, false);
             context = view.getContext();
-            dbHelper = new DBHelper(context);
+            DBHelper = new DBHelper(context);
             tool = (ToolFragment) getFragmentManager().findFragmentById(R.id.tool_fragment);
-            idUser = tool.idRowUser;
+            userIdLocal = tool.idRowUser;
 
             myLayout = (RelativeLayout) view.findViewById(R.id.room3);
             messageBox = (TextView) view.findViewById(R.id.message);
@@ -49,15 +50,15 @@ public class RightRoomFragment extends MainFragment implements View.OnClickListe
             picture2.setOnClickListener(this);
             safe.setOnClickListener(this);
 
-            if (dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_ON_LIGHT) == 1) {
+            if (DBHelper.getValueIntFromDB(userIdLocal, dbKeys.KEY_ON_LIGHT) == 1) {
                 myLayout.setBackground(this.getResources().getDrawable(R.drawable.room_right));
 
-                if (dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_IS_PICTURE) == 0) {
+                if (DBHelper.getValueIntFromDB(userIdLocal, dbKeys.KEY_IS_PICTURE) == 0) {
                     picture.setVisibility(View.GONE);
                     picture2.setVisibility(View.VISIBLE);
                 }
-                if (dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_SAFE_OPEN) == 1
-                        && dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_MAIN_KEY) == 1)
+                if (DBHelper.getValueIntFromDB(userIdLocal, dbKeys.KEY_SAFE_OPEN) == 1
+                        && DBHelper.getValueIntFromDB(userIdLocal, dbKeys.KEY_MAIN_KEY) == 1)
                             safe.setEnabled(false);
 
 
@@ -71,7 +72,7 @@ public class RightRoomFragment extends MainFragment implements View.OnClickListe
             }
 
         } catch (Exception e) {
-            Log.e(TAG, "onCreateView:", e);
+            Log.e(dbKeys.TAG, "onCreateView:", e);
         }
 
         return view;
@@ -96,7 +97,7 @@ public class RightRoomFragment extends MainFragment implements View.OnClickListe
             }
 
         } catch (Exception e) {
-            Log.e(TAG, "onClick:", e);
+            Log.e(dbKeys.TAG, "onClick:", e);
         }
     }
 
@@ -106,7 +107,7 @@ public class RightRoomFragment extends MainFragment implements View.OnClickListe
             MediaPlayer.create(context, R.raw.doorclose).start();
             getActivity().getSupportFragmentManager().popBackStack();
         } catch (Exception e) {
-            Log.e(TAG, "onClickDoor:", e);
+            Log.e(dbKeys.TAG, "onClickDoor:", e);
         }
     }
 
@@ -115,10 +116,10 @@ public class RightRoomFragment extends MainFragment implements View.OnClickListe
             MediaPlayer.create(context, R.raw.plate).start();
             picture.setVisibility(View.GONE);
             picture2.setVisibility(View.VISIBLE);
-            dbHelper.saveValueInDB(idUser,DBHelper.KEY_IS_PICTURE, 0);
+            DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_IS_PICTURE, 0);
 
         } catch (Exception e) {
-            Log.e(TAG, "onClickPicture:", e);
+            Log.e(dbKeys.TAG, "onClickPicture:", e);
         }
 
     }
@@ -129,19 +130,19 @@ public class RightRoomFragment extends MainFragment implements View.OnClickListe
             if (((RadioButton) tool.RBG.getChildAt(4)).isChecked()) {
                 BusProvider.getInstance().post(new ToolChangeEvent(ToolName.KeyForSafe, 4, Action.Used));
 
-                dbHelper.saveValueInDB(idUser,DBHelper.KEY_SAFE_KEY, 0);
-                dbHelper.saveValueInDB(idUser,DBHelper.KEY_SAFE_OPEN, 1);
+                DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_SAFE_KEY, 0);
+                DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_SAFE_OPEN, 1);
 
                 MediaPlayer.create(context, R.raw.trashremove).start();
 
                 replaceFragment(new SafetyBoxFragment());
 
-                if (dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_MAIN_KEY) == 1) safe.setEnabled(false);
+                if (DBHelper.getValueIntFromDB(userIdLocal, dbKeys.KEY_MAIN_KEY) == 1) safe.setEnabled(false);
 
             } else messageBox.setText(R.string.msg_safe);
 
         } catch (Exception e) {
-            Log.e(TAG, "error", e);
+            Log.e(dbKeys.TAG, "error", e);
         }
 
     }

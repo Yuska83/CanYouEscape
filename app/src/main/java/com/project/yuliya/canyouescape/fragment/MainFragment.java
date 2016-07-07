@@ -9,17 +9,17 @@ import android.view.animation.Animation;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.project.yuliya.canyouescape.EventBus.BusProvider;
+import com.project.yuliya.canyouescape.eventBus.BusProvider;
 import com.project.yuliya.canyouescape.R;
+import com.project.yuliya.canyouescape.constans.dbKeys;
 import com.project.yuliya.canyouescape.helper.DBHelper;
 
 
 public class MainFragment extends Fragment {
 
-    public static final String TAG = "MyLog";
-    int idUser;
+    int userIdLocal;
     public String fragmentName;
-    DBHelper dbHelper;
+    DBHelper DBHelper;
     Context context;
     ToolFragment tool;
     Animation anim;
@@ -39,7 +39,7 @@ public class MainFragment extends Fragment {
         }
         catch (Exception e)
         {
-            Log.e(TAG,"onReplaceFragment:",e);
+            Log.e(dbKeys.TAG,"onReplaceFragment:",e);
         }
     }
 
@@ -50,14 +50,14 @@ public class MainFragment extends Fragment {
         super.onResume();
         BusProvider.getInstance().register(this);
         messageBox.setText("");
-        dbHelper.saveValueInDB(idUser, DBHelper.KEY_FRAGMENT_NAME, fragmentName);
+        DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_FRAGMENT_NAME, fragmentName);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         BusProvider.getInstance().unregister(this);
-        dbHelper.saveValueInDB(idUser, DBHelper.KEY_FRAGMENT_NAME, fragmentName);
+        DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_FRAGMENT_NAME, fragmentName);
     }
 
 }

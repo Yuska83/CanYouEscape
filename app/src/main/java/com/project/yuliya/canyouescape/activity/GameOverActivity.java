@@ -10,10 +10,10 @@ import android.widget.TextView;
 
 import com.project.yuliya.canyouescape.R;
 import com.project.yuliya.canyouescape.adapter.usersArrayAdapter;
-import com.project.yuliya.canyouescape.forserver.Constants;
-import com.project.yuliya.canyouescape.forserver.User;
-import com.project.yuliya.canyouescape.forserver.getTopRateUsersTask;
-import com.project.yuliya.canyouescape.forserver.saveUserTimeTask;
+import com.project.yuliya.canyouescape.constans.dbKeys;
+import com.project.yuliya.canyouescape.classes.User;
+import com.project.yuliya.canyouescape.asyncTask.getTopRateUsersTask;
+import com.project.yuliya.canyouescape.asyncTask.saveUserTimeTask;
 import com.project.yuliya.canyouescape.helper.DBHelper;
 
 import java.util.ArrayList;
@@ -21,8 +21,8 @@ import java.util.concurrent.ExecutionException;
 
 public class GameOverActivity extends AppCompatActivity {
 
-    public static final String TAG = "MyLog";
-    DBHelper dbHelper;
+
+    DBHelper DBHelper;
     int userIdLocal;
     String userName;
     long userIdGlobal, userTime;
@@ -36,20 +36,20 @@ public class GameOverActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game_over);
 
         try {
-            dbHelper = new DBHelper(this);
+            DBHelper = new DBHelper(this);
 
             listViewUsers = (ListView) findViewById(R.id.listViewUsers);
             numCurrentUser = (TextView) findViewById(R.id.numCurrentUser);
             nameCurrentUser = (TextView) findViewById(R.id.nameCurrentUser);
             timeCurrentUser = (TextView) findViewById(R.id.timeCurrentUser);
 
-            userIdLocal = getIntent().getExtras().getInt("idUser");
-            userIdGlobal = Long.valueOf(dbHelper.getValueIntFromDB(userIdLocal, DBHelper.KEY_USER_ID));
-            userName = dbHelper.getValueStringFromDB(userIdLocal, DBHelper.KEY_USER_NAME);
-            userTime = Long.valueOf(dbHelper.getValueStringFromDB(userIdLocal, DBHelper.KEY_USER_TIME));
+            userIdLocal = getIntent().getExtras().getInt("userIdLocal");
+            userIdGlobal = Long.valueOf(DBHelper.getValueIntFromDB(userIdLocal, dbKeys.KEY_USER_ID));
+            userName = DBHelper.getValueStringFromDB(userIdLocal, dbKeys.KEY_USER_NAME);
+            userTime = Long.valueOf(DBHelper.getValueStringFromDB(userIdLocal, dbKeys.KEY_USER_TIME));
 
 
-            Log.d(Constants.TAG, "userIdGlobal : " + userIdGlobal + " useridlocal : " + userIdLocal + " login : " + userName + " time : " + userTime);
+            Log.d(dbKeys.TAG, "userIdGlobal : " + userIdGlobal + " useridlocal : " + userIdLocal + " login : " + userName + " time : " + userTime);
 
             if (savedInstanceState == null)
                 MediaPlayer.create(this, R.raw.likovanietolpy).start();
@@ -58,7 +58,7 @@ public class GameOverActivity extends AppCompatActivity {
             fillListUsers();
 
         } catch (Exception e) {
-            Log.d(TAG, "Error : onCreateGameOver " + e);
+            Log.d(dbKeys.TAG, "Error : onCreateGameOver " + e);
         }
 
     }

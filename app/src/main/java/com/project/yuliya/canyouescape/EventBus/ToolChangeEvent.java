@@ -1,7 +1,7 @@
-package com.project.yuliya.canyouescape.EventBus;
+package com.project.yuliya.canyouescape.eventBus;
 
-import com.project.yuliya.canyouescape.enums.Action;
-import com.project.yuliya.canyouescape.enums.ToolName;
+import com.project.yuliya.canyouescape.constans.Action;
+import com.project.yuliya.canyouescape.constans.ToolName;
 
 public class ToolChangeEvent {
 
@@ -24,13 +24,6 @@ public class ToolChangeEvent {
         this.nameTool = nameTool ;
         this.numTool = numTool;
         this.action = action;
-    }
-
-    public ToolChangeEvent(int numTool, boolean toolEnabled)
-    {
-        this.nameTool = null;
-        this.numTool = numTool;
-        this.action = toolEnabled?Action.Found:Action.Used;
     }
 
 

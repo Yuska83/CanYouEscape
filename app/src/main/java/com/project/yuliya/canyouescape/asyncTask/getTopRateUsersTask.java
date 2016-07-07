@@ -1,7 +1,11 @@
-package com.project.yuliya.canyouescape.forserver;
+package com.project.yuliya.canyouescape.asyncTask;
 
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.project.yuliya.canyouescape.classes.User;
+import com.project.yuliya.canyouescape.constans.URL;
+import com.project.yuliya.canyouescape.constans.dbKeys;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -11,7 +15,6 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class getTopRateUsersTask extends AsyncTask<Void,Void,ArrayList<User>> {
@@ -24,7 +27,7 @@ public class getTopRateUsersTask extends AsyncTask<Void,Void,ArrayList<User>> {
             RestTemplate template = new RestTemplate();
             template.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-            ResponseEntity<ArrayList<User>> usersResponse = template.exchange(Constants.URL.GET_TOP_RATE_USERS,
+            ResponseEntity<ArrayList<User>> usersResponse = template.exchange(URL.GET_TOP_RATE_USERS,
                     HttpMethod.GET, null, new ParameterizedTypeReference<ArrayList<User>>() {
                     });
 

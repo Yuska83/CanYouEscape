@@ -1,4 +1,4 @@
-package com.project.yuliya.canyouescape.EventBus;
+package com.project.yuliya.canyouescape.eventBus;
 
 
 import com.squareup.otto.Bus;

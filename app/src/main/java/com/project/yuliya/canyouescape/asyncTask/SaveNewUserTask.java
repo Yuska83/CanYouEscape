@@ -1,15 +1,16 @@
-package com.project.yuliya.canyouescape.forserver;
+package com.project.yuliya.canyouescape.asyncTask;
 
 
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.project.yuliya.canyouescape.classes.User;
+import com.project.yuliya.canyouescape.constans.URL;
+import com.project.yuliya.canyouescape.constans.dbKeys;
+
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class SaveNewUserTask extends AsyncTask<String,Void,User> {
@@ -23,7 +24,7 @@ public class SaveNewUserTask extends AsyncTask<String,Void,User> {
             template.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
             User user = new User(params[0]);
-            return template.postForObject(Constants.URL.SAVE_NEW_USER,user,User.class);
+            return template.postForObject(URL.SAVE_NEW_USER,user,User.class);
 
         } catch (RestClientException e) {
             Log.d(TAG,"on doInBackground : ",e);

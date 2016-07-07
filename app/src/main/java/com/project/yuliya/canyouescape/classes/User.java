@@ -1,4 +1,4 @@
-package com.project.yuliya.canyouescape.forserver;
+package com.project.yuliya.canyouescape.classes;
 
 
 public class User {

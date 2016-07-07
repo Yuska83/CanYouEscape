@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.project.yuliya.canyouescape.R;
+import com.project.yuliya.canyouescape.constans.dbKeys;
 import com.project.yuliya.canyouescape.helper.DBHelper;
 
 public class LeftDoorFragment extends MainFragment implements View.OnClickListener {
@@ -23,14 +24,14 @@ public class LeftDoorFragment extends MainFragment implements View.OnClickListen
                              Bundle savedInstanceState) {
 
         fragmentName = "LeftDoorFragment";
-        Log.e(TAG,"onCreateLeftDoor:");
+        Log.e(dbKeys.TAG,"onCreateLeftDoor:");
         try
         {
             view = inflater.inflate(R.layout.left_door_fragment, container, false);
             context = view.getContext();
-            dbHelper = new DBHelper(context);
+            DBHelper = new DBHelper(context);
             tool=(ToolFragment)getFragmentManager().findFragmentById(R.id.tool_fragment);
-            idUser = tool.idRowUser;
+            userIdLocal = tool.idRowUser;
 
             myLayout = (RelativeLayout)view.findViewById(R.id.LDLayout);
             messageBox = (TextView)view.findViewById(R.id.message);
@@ -41,13 +42,13 @@ public class LeftDoorFragment extends MainFragment implements View.OnClickListen
             door.setOnClickListener(this);
             codeLock.setOnClickListener(this);
 
-            if(dbHelper.getValueIntFromDB(idUser,DBHelper.KEY_IS_LOCKED_LEFT_DOOR) == 0)
+            if(DBHelper.getValueIntFromDB(userIdLocal, dbKeys.KEY_IS_LOCKED_LEFT_DOOR) == 0)
                 codeLock.setEnabled(false);
 
         }
         catch (Exception e)
         {
-            Log.e(TAG,"onReplaceFragment:",e);
+            Log.e(dbKeys.TAG,"onReplaceFragment:",e);
         }
 
         return view;
@@ -69,7 +70,7 @@ public class LeftDoorFragment extends MainFragment implements View.OnClickListen
     private void onClickDoor() {
         try
         {
-            if (dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_IS_LOCKED_LEFT_DOOR)==0) {
+            if (DBHelper.getValueIntFromDB(userIdLocal, dbKeys.KEY_IS_LOCKED_LEFT_DOOR)==0) {
 
                 MediaPlayer.create(context, R.raw.doorclose).start();
                 replaceFragment(new LeftRoomFragment());
@@ -82,7 +83,7 @@ public class LeftDoorFragment extends MainFragment implements View.OnClickListen
         }
         catch (Exception e)
         {
-            Log.e(TAG,"onClickLeftDoor:",e);
+            Log.e(dbKeys.TAG,"onClickLeftDoor:",e);
         }
 
     }
@@ -90,7 +91,7 @@ public class LeftDoorFragment extends MainFragment implements View.OnClickListen
     private void onClickCodeLock() {
         try
         {
-            if(dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_IS_LOCKED_LEFT_DOOR) ==0)
+            if(DBHelper.getValueIntFromDB(userIdLocal, dbKeys.KEY_IS_LOCKED_LEFT_DOOR) ==0)
             {
                 codeLock.setEnabled(false);
                 return;
@@ -100,7 +101,7 @@ public class LeftDoorFragment extends MainFragment implements View.OnClickListen
         }
         catch (Exception e)
         {
-            Log.e(TAG,"onClickCodeLock:",e);
+            Log.e(dbKeys.TAG,"onClickCodeLock:",e);
         }
 
     }

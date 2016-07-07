@@ -1,4 +1,4 @@
-package com.project.yuliya.canyouescape.enums;
+package com.project.yuliya.canyouescape.constans;
 
 
 public enum ToolName {

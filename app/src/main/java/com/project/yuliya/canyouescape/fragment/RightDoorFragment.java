@@ -12,12 +12,14 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.project.yuliya.canyouescape.EventBus.BusProvider;
-import com.project.yuliya.canyouescape.EventBus.ToolChangeEvent;
+import com.project.yuliya.canyouescape.eventBus.BusProvider;
+import com.project.yuliya.canyouescape.eventBus.ToolChangeEvent;
 import com.project.yuliya.canyouescape.R;
-import com.project.yuliya.canyouescape.enums.Action;
-import com.project.yuliya.canyouescape.enums.ToolName;
+import com.project.yuliya.canyouescape.constans.Action;
+import com.project.yuliya.canyouescape.constans.ToolName;
+import com.project.yuliya.canyouescape.constans.dbKeys;
 import com.project.yuliya.canyouescape.helper.DBHelper;
+import com.squareup.otto.Bus;
 
 public class RightDoorFragment extends MainFragment {
 
@@ -28,21 +30,21 @@ public class RightDoorFragment extends MainFragment {
                              Bundle savedInstanceState) {
 
         fragmentName = "RightDoorFragment";
-
+        Log.e(dbKeys.TAG,"onCreateRightDoorFragment:");
         try
         {
             view = inflater.inflate(R.layout.right_door_fragment, container, false);
             context = view.getContext();
-            dbHelper = new DBHelper(context);
+            DBHelper = new DBHelper(context);
             tool = (ToolFragment) getFragmentManager().findFragmentById(R.id.tool_fragment);
-            idUser = tool.idRowUser;
+            userIdLocal = tool.idRowUser;
 
             myLayout = (RelativeLayout) view.findViewById(R.id.myLayout);
             messageBox = (TextView) view.findViewById(R.id.message);
             door = (ImageView) view.findViewById(R.id.doorR);
             tumbler = (ImageView) view.findViewById(R.id.tumbler);
 
-            if(dbHelper.getValueIntFromDB(idUser,DBHelper.KEY_ON_LIGHT)== 1)
+            if(DBHelper.getValueIntFromDB(userIdLocal, dbKeys.KEY_ON_LIGHT)== 1)
                 myLayout.setBackground(getResources().getDrawable(R.drawable.door_right2));
             else
                 myLayout.setBackground(getResources().getDrawable(R.drawable.door_right));
@@ -59,15 +61,17 @@ public class RightDoorFragment extends MainFragment {
                 @Override
                 public void onClick(View view) {
                     try {
-                        if (dbHelper.getValueIntFromDB(idUser,DBHelper.KEY_IS_LOCKED_RIGHT_DOOR) == 0) {
+                        if (DBHelper.getValueIntFromDB(userIdLocal, dbKeys.KEY_IS_LOCKED_RIGHT_DOOR) == 0) {
                             MediaPlayer.create(context, R.raw.doorclose).start();
                             replaceFragment(new RightRoomFragment());
 
                         } else if (((RadioButton) tool.RBG.getChildAt(0)).isChecked()) {
-                            BusProvider.getInstance().post(new ToolChangeEvent(ToolName.KeyForRightDoor, 0, Action.Used));
 
-                            dbHelper.saveValueInDB(idUser,DBHelper.KEY_RIGHT_DOOR_KEY, 0);
-                            dbHelper.saveValueInDB(idUser,DBHelper.KEY_IS_LOCKED_RIGHT_DOOR, 0);
+                            Bus bus = BusProvider.getInstance();
+                            bus.post(new ToolChangeEvent(ToolName.KeyForRightDoor, 0, Action.Used));
+
+                            DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_RIGHT_DOOR_KEY, 0);
+                            DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_IS_LOCKED_RIGHT_DOOR, 0);
 
                             replaceFragment(new RightRoomFragment());
                         } else {
@@ -78,7 +82,7 @@ public class RightDoorFragment extends MainFragment {
                         }
 
                     } catch (Exception e) {
-                        Log.e(TAG, "onClickRightDoor:", e);
+                        Log.e(dbKeys.TAG, "onClickRightDoor:", e);
                     }
                 }
             });
@@ -90,14 +94,14 @@ public class RightDoorFragment extends MainFragment {
 
                         MediaPlayer.create(context, R.raw.buttonenter).start();
 
-                        if (dbHelper.getValueIntFromDB(idUser,DBHelper.KEY_ON_LIGHT) == 1) {
-                            dbHelper.saveValueInDB(idUser, DBHelper.KEY_ON_LIGHT, 0);
+                        if (DBHelper.getValueIntFromDB(userIdLocal, dbKeys.KEY_ON_LIGHT) == 1) {
+                            DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_ON_LIGHT, 0);
                             myLayout.setBackground(getResources().getDrawable(R.drawable.door_right));
                             messageBox.setText(R.string.msg_tumbler2);
 
                         } else {
-                            if (dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_IS_LIGHT) == 1) {
-                                dbHelper.saveValueInDB(idUser,DBHelper.KEY_ON_LIGHT, 1);
+                            if (DBHelper.getValueIntFromDB(userIdLocal, dbKeys.KEY_IS_LIGHT) == 1) {
+                                DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_ON_LIGHT, 1);
                                 myLayout.setBackground(getResources().getDrawable(R.drawable.door_right2));
                                 messageBox.setText(R.string.msg_tumbler1);
                             } else {
@@ -106,12 +110,12 @@ public class RightDoorFragment extends MainFragment {
                         }
 
                     } catch (Exception e) {
-                        Log.e(TAG, "onClickTumbler:", e);
+                        Log.e(dbKeys.TAG, "onClickTumbler:", e);
                     }
                 }
             });
         } catch (Exception e) {
-            Log.e(TAG, "onCreateView:", e);
+            Log.e(dbKeys.TAG, "onCreateView:", e);
         }
 
         return view;

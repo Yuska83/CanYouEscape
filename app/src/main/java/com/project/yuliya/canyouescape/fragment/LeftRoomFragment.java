@@ -13,11 +13,12 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.project.yuliya.canyouescape.EventBus.BusProvider;
-import com.project.yuliya.canyouescape.EventBus.ToolChangeEvent;
+import com.project.yuliya.canyouescape.eventBus.BusProvider;
+import com.project.yuliya.canyouescape.eventBus.ToolChangeEvent;
 import com.project.yuliya.canyouescape.R;
-import com.project.yuliya.canyouescape.enums.Action;
-import com.project.yuliya.canyouescape.enums.ToolName;
+import com.project.yuliya.canyouescape.constans.Action;
+import com.project.yuliya.canyouescape.constans.ToolName;
+import com.project.yuliya.canyouescape.constans.dbKeys;
 import com.project.yuliya.canyouescape.helper.DBHelper;
 
 
@@ -32,15 +33,15 @@ public class LeftRoomFragment extends MainFragment implements View.OnClickListen
 
         fragmentName = "LeftRoomFragment";
 
-        Log.e(TAG,"onCreateLeftRoom:");
+        Log.e(dbKeys.TAG,"onCreateLeftRoom:");
 
         try
         {
             view = inflater.inflate(R.layout.left_room_fragment, container, false);
             context = view.getContext();
-            dbHelper = new DBHelper(context);
+            DBHelper = new DBHelper(context);
             tool = (ToolFragment) getFragmentManager().findFragmentById(R.id.tool_fragment);
-            idUser = tool.idRowUser;
+            userIdLocal = tool.idRowUser;
 
             myLayout = (RelativeLayout)view.findViewById(R.id.LRLayout);
             messageBox = (TextView)view.findViewById(R.id.message);
@@ -59,11 +60,11 @@ public class LeftRoomFragment extends MainFragment implements View.OnClickListen
             mirror.setOnClickListener(this);
             key.setOnClickListener(this);
 
-            if(dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_IS_MIRROR)==0)
+            if(DBHelper.getValueIntFromDB(userIdLocal, dbKeys.KEY_IS_MIRROR)==0)
             {
                 mirror.setImageDrawable(getResources().getDrawable(R.drawable.mirror2));
                 mirror.setEnabled(false);
-                if(dbHelper.getValueIntFromDB(idUser,DBHelper.KEY_IS_KEY_HATCH)==1)
+                if(DBHelper.getValueIntFromDB(userIdLocal, dbKeys.KEY_IS_KEY_HATCH)==1)
                     key.setVisibility(View.GONE);
                 else
                     key.setVisibility(View.VISIBLE);
@@ -74,7 +75,7 @@ public class LeftRoomFragment extends MainFragment implements View.OnClickListen
         }
         catch (Exception e)
         {
-            Log.e(TAG,"onClick:",e);
+            Log.e(dbKeys.TAG,"onClick:",e);
         }
 
         return view;
@@ -98,7 +99,7 @@ public class LeftRoomFragment extends MainFragment implements View.OnClickListen
         }
         catch (Exception e)
         {
-            Log.e(TAG,"onClick:",e);
+            Log.e(dbKeys.TAG,"onClick:",e);
         }
     }
 
@@ -111,7 +112,7 @@ public class LeftRoomFragment extends MainFragment implements View.OnClickListen
         }
         catch (Exception e)
         {
-            Log.e(TAG,"onClickDoor:",e);
+            Log.e(dbKeys.TAG,"onClickDoor:",e);
         }
     }
 
@@ -120,9 +121,9 @@ public class LeftRoomFragment extends MainFragment implements View.OnClickListen
         {
             MediaPlayer.create(context, R.raw.shurshanie).start();
 
-            int countTouch = dbHelper.getValueIntFromDB(idUser,DBHelper.KEY_COUNT_TOUCH_TREE);
+            int countTouch = DBHelper.getValueIntFromDB(userIdLocal, dbKeys.KEY_COUNT_TOUCH_TREE);
             countTouch++;
-            dbHelper.saveValueInDB(idUser,DBHelper.KEY_COUNT_TOUCH_TREE, countTouch);
+            DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_COUNT_TOUCH_TREE, countTouch);
 
             if(countTouch>3) return;
 
@@ -152,7 +153,7 @@ public class LeftRoomFragment extends MainFragment implements View.OnClickListen
         }
         catch (Exception e)
         {
-            Log.e(TAG,"onClickTree:",e);
+            Log.e(dbKeys.TAG,"onClickTree:",e);
         }
     }
 
@@ -163,7 +164,7 @@ public class LeftRoomFragment extends MainFragment implements View.OnClickListen
             cable.setVisibility(View.GONE);
             BusProvider.getInstance().post(new ToolChangeEvent(ToolName.Cable, 1, Action.Found));
 
-            dbHelper.saveValueInDB(idUser, DBHelper.KEY_CABLE, 1);
+            DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_CABLE, 1);
 
             MediaPlayer.create(context, R.raw.miscmetal).start();
             messageBox.setText(R.string.msg_cable);
@@ -171,7 +172,7 @@ public class LeftRoomFragment extends MainFragment implements View.OnClickListen
         }
         catch (Exception e)
         {
-            Log.e(TAG,"onClickCable:",e);
+            Log.e(dbKeys.TAG,"onClickCable:",e);
         }
     }
 
@@ -182,7 +183,7 @@ public class LeftRoomFragment extends MainFragment implements View.OnClickListen
             hammer.setVisibility(View.GONE);
             BusProvider.getInstance().post(new ToolChangeEvent(ToolName.Hammer, 2, Action.Found));
 
-            dbHelper.saveValueInDB(idUser,DBHelper.KEY_HAMMER, 1);
+            DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_HAMMER, 1);
 
             MediaPlayer.create(context, R.raw.miscmetal).start();
             messageBox.setText(R.string.msg_hammer);
@@ -190,7 +191,7 @@ public class LeftRoomFragment extends MainFragment implements View.OnClickListen
         }
         catch (Exception e)
         {
-            Log.e(TAG,"onClickHammer:",e);
+            Log.e(dbKeys.TAG,"onClickHammer:",e);
         }
     }
 
@@ -199,8 +200,8 @@ public class LeftRoomFragment extends MainFragment implements View.OnClickListen
         {
             BusProvider.getInstance().post(new ToolChangeEvent(ToolName.KeyForHatch, 3, Action.Found));
 
-            dbHelper.saveValueInDB(idUser, DBHelper.KEY_HATCH_KEY, 1);
-            dbHelper.saveValueInDB(idUser, DBHelper.KEY_IS_KEY_HATCH, 1);
+            DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_HATCH_KEY, 1);
+            DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_IS_KEY_HATCH, 1);
 
             key.setVisibility(View.INVISIBLE);
             mirror.setEnabled(false);
@@ -210,7 +211,7 @@ public class LeftRoomFragment extends MainFragment implements View.OnClickListen
         }
         catch (Exception e)
         {
-            Log.e(TAG,"onClickKey:",e);
+            Log.e(dbKeys.TAG,"onClickKey:",e);
         }
     }
 
@@ -221,7 +222,8 @@ public class LeftRoomFragment extends MainFragment implements View.OnClickListen
             if (((RadioButton)tool.RBG.getChildAt(2)).isChecked())
             {
                 BusProvider.getInstance().post(new ToolChangeEvent(ToolName.Hammer, 2 , Action.Used));
-                dbHelper.saveValueInDB(idUser, DBHelper.KEY_HAMMER, 0);
+                DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_HAMMER, 0);
+                DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_IS_MIRROR, 0);
 
                 mirror.setImageDrawable(getResources().getDrawable(R.drawable.mirror2));
                 mirror.setEnabled(false);
@@ -231,8 +233,6 @@ public class LeftRoomFragment extends MainFragment implements View.OnClickListen
                 key.setVisibility(View.VISIBLE);
                 key.setEnabled(true);
 
-                dbHelper.saveValueInDB(idUser, DBHelper.KEY_IS_MIRROR, 0);
-
             }
             else
                 messageBox.setText(R.string.msg_mirror);
@@ -240,7 +240,7 @@ public class LeftRoomFragment extends MainFragment implements View.OnClickListen
         }
         catch (Exception e)
         {
-            Log.e(TAG,"onClickMirror:",e);
+            Log.e(dbKeys.TAG,"onClickMirror:",e);
         }
     }
 

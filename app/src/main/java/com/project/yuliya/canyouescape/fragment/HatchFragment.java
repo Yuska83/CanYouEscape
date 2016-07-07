@@ -12,11 +12,12 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.project.yuliya.canyouescape.EventBus.BusProvider;
-import com.project.yuliya.canyouescape.EventBus.ToolChangeEvent;
+import com.project.yuliya.canyouescape.eventBus.BusProvider;
+import com.project.yuliya.canyouescape.eventBus.ToolChangeEvent;
 import com.project.yuliya.canyouescape.R;
-import com.project.yuliya.canyouescape.enums.Action;
-import com.project.yuliya.canyouescape.enums.ToolName;
+import com.project.yuliya.canyouescape.constans.Action;
+import com.project.yuliya.canyouescape.constans.ToolName;
+import com.project.yuliya.canyouescape.constans.dbKeys;
 import com.project.yuliya.canyouescape.helper.DBHelper;
 
 public class HatchFragment extends MainFragment implements View.OnClickListener{
@@ -33,9 +34,9 @@ public class HatchFragment extends MainFragment implements View.OnClickListener{
 
             view = inflater.inflate(R.layout.hatch_fragment, container, false);
             context = view.getContext();
-            dbHelper = new DBHelper(context);
+            DBHelper = new DBHelper(context);
             tool = (ToolFragment) getFragmentManager().findFragmentById(R.id.tool_fragment);
-            idUser = tool.idRowUser;
+            userIdLocal = tool.idRowUser;
 
             myLayout = (RelativeLayout) view.findViewById(R.id.hatchLayout);
             messageBox = (TextView)view.findViewById(R.id.message);
@@ -49,11 +50,11 @@ public class HatchFragment extends MainFragment implements View.OnClickListener{
             cables.setOnClickListener(this);
             key.setOnClickListener(this);
 
-            if (dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_IS_HATCH_OPEN) == 1)
+            if (DBHelper.getValueIntFromDB(userIdLocal, dbKeys.KEY_IS_HATCH_OPEN) == 1)
             {
                 hatchBackground.setImageDrawable(getResources().getDrawable(R.drawable.hatch_open));
 
-                if(dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_IS_LIGHT) == 1) {
+                if(DBHelper.getValueIntFromDB(userIdLocal, dbKeys.KEY_IS_LIGHT) == 1) {
                     cables.setImageDrawable(getResources().getDrawable(R.drawable.cables));
                     cables.setEnabled(false);
                 }
@@ -63,7 +64,7 @@ public class HatchFragment extends MainFragment implements View.OnClickListener{
 
                 }
 
-                if (dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_IS_HATCH_KEY_TAKE) == 1)
+                if (DBHelper.getValueIntFromDB(userIdLocal, dbKeys.KEY_IS_HATCH_KEY_TAKE) == 1)
                         key.setVisibility(View.GONE);
 
 
@@ -80,7 +81,7 @@ public class HatchFragment extends MainFragment implements View.OnClickListener{
 
         }
         catch (Resources.NotFoundException e) {
-            Log.e(TAG, "onCreateView", e);
+            Log.e(dbKeys.TAG, "onCreateView", e);
         }
 
         return view;
@@ -102,7 +103,7 @@ public class HatchFragment extends MainFragment implements View.OnClickListener{
         }
         catch (Exception e)
         {
-            Log.e(TAG,"onClick:",e);
+            Log.e(dbKeys.TAG,"onClick:",e);
         }
     }
 
@@ -115,8 +116,8 @@ public class HatchFragment extends MainFragment implements View.OnClickListener{
             {
                 BusProvider.getInstance().post(new ToolChangeEvent(ToolName.KeyForHatch, 3, Action.Used));
 
-                dbHelper.saveValueInDB(idUser, DBHelper.KEY_HATCH_KEY, 0);
-                dbHelper.saveValueInDB(idUser, DBHelper.KEY_IS_HATCH_OPEN,1);
+                DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_HATCH_KEY, 0);
+                DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_IS_HATCH_OPEN,1);
 
                 hatchBackground.setImageDrawable(getResources().getDrawable(R.drawable.hatch_open));
                 hatchLock.setEnabled(false);
@@ -132,7 +133,7 @@ public class HatchFragment extends MainFragment implements View.OnClickListener{
         }
         catch (Exception e)
         {
-            Log.e(TAG, "onClickHatch:", e);
+            Log.e(dbKeys.TAG, "onClickHatch:", e);
         }
 
     }
@@ -145,8 +146,8 @@ public class HatchFragment extends MainFragment implements View.OnClickListener{
             {
                 BusProvider.getInstance().post(new ToolChangeEvent(ToolName.Cable, 1, Action.Used));
 
-                dbHelper.saveValueInDB(idUser, DBHelper.KEY_CABLE, 0);
-                dbHelper.saveValueInDB(idUser, DBHelper.KEY_IS_LIGHT, 1);
+                DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_CABLE, 0);
+                DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_IS_LIGHT, 1);
 
                 cables.setImageDrawable(getResources().getDrawable(R.drawable.cables));
                 cables.setEnabled(false);
@@ -161,7 +162,7 @@ public class HatchFragment extends MainFragment implements View.OnClickListener{
         }
         catch (Exception e)
         {
-            Log.e(TAG, "onClickCables:", e);
+            Log.e(dbKeys.TAG, "onClickCables:", e);
         }
 
     }
@@ -172,9 +173,9 @@ public class HatchFragment extends MainFragment implements View.OnClickListener{
         {
             BusProvider.getInstance().post(new ToolChangeEvent(ToolName.KeyForSafe, 4, Action.Found));
 
-            dbHelper.saveValueInDB(idUser, DBHelper.KEY_SAFE_KEY, 1);
-            dbHelper.saveValueInDB(idUser,DBHelper.KEY_IS_LIGHT, 1);
-            dbHelper.saveValueInDB(idUser, DBHelper.KEY_IS_HATCH_KEY_TAKE, 1);
+            DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_SAFE_KEY, 1);
+            DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_IS_LIGHT, 1);
+            DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_IS_HATCH_KEY_TAKE, 1);
 
             key.setVisibility(View.GONE);
 
@@ -184,7 +185,7 @@ public class HatchFragment extends MainFragment implements View.OnClickListener{
         }
         catch (Exception e)
         {
-            Log.e(TAG, "onClickKey:", e);
+            Log.e(dbKeys.TAG, "onClickKey:", e);
         }
 
     }

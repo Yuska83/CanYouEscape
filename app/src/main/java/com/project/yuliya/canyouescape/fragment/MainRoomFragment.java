@@ -15,12 +15,13 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.project.yuliya.canyouescape.EventBus.BusProvider;
-import com.project.yuliya.canyouescape.EventBus.ToolChangeEvent;
+import com.project.yuliya.canyouescape.eventBus.BusProvider;
+import com.project.yuliya.canyouescape.eventBus.ToolChangeEvent;
 import com.project.yuliya.canyouescape.R;
 import com.project.yuliya.canyouescape.activity.GameOverActivity;
-import com.project.yuliya.canyouescape.enums.Action;
-import com.project.yuliya.canyouescape.enums.ToolName;
+import com.project.yuliya.canyouescape.constans.Action;
+import com.project.yuliya.canyouescape.constans.ToolName;
+import com.project.yuliya.canyouescape.constans.dbKeys;
 import com.project.yuliya.canyouescape.helper.DBHelper;
 
 
@@ -33,14 +34,14 @@ public class MainRoomFragment extends MainFragment implements View.OnClickListen
                              Bundle savedInstanceState) {
 
         fragmentName = "MainRoomFragment";
-        Log.e(TAG,"onCreateMainRoom:");
+        Log.e(dbKeys.TAG,"onCreateMainRoom:");
         try
         {
             view = inflater.inflate(R.layout.main_room_fragment, container, false);
             context = view.getContext();
-            dbHelper = new DBHelper(context);
+            DBHelper = new DBHelper(context);
             tool = (ToolFragment) getFragmentManager().findFragmentById(R.id.tool_fragment);
-            idUser = tool.idRowUser;
+            userIdLocal = tool.idRowUser;
 
             mainDoor = (ImageView) view.findViewById(R.id.mainDoor);
             leftDoor = (ImageView) view.findViewById(R.id.leftDoor);
@@ -61,7 +62,7 @@ public class MainRoomFragment extends MainFragment implements View.OnClickListen
             messageBox.setOnClickListener(this);
             myLayout.setOnClickListener(this);
 
-            if(dbHelper.getValueIntFromDB(idUser, DBHelper.KEY_IS_TABLE_MOVE)==1)
+            if(DBHelper.getValueIntFromDB(userIdLocal, dbKeys.KEY_IS_TABLE_MOVE)==1)
             {
                 table.setVisibility(View.GONE);
                 table2.setVisibility(View.VISIBLE);
@@ -75,7 +76,7 @@ public class MainRoomFragment extends MainFragment implements View.OnClickListen
         }
         catch (Exception e)
         {
-            Log.e(TAG,"onCreateView:",e);
+            Log.e(dbKeys.TAG,"onCreateView:",e);
             return  null;
         }
 
@@ -103,7 +104,7 @@ public class MainRoomFragment extends MainFragment implements View.OnClickListen
         }
         catch (Exception e)
         {
-            Log.e(TAG,"onClick:",e);
+            Log.e(dbKeys.TAG,"onClick:",e);
         }
 
     }
@@ -116,7 +117,7 @@ public class MainRoomFragment extends MainFragment implements View.OnClickListen
                 MediaPlayer.create(context, R.raw.doorclose).start();
 
                 Intent intent = new Intent(context, GameOverActivity.class);
-                intent.putExtra("idUser", idUser);
+                intent.putExtra("userIdLocal", userIdLocal);
                 startActivity(intent);
 
             } else {
@@ -127,7 +128,7 @@ public class MainRoomFragment extends MainFragment implements View.OnClickListen
         }
         catch (Exception e)
         {
-            Log.e(TAG,"onClickMainDoor:",e);
+            Log.e(dbKeys.TAG,"onClickMainDoor:",e);
         }
 
     }
@@ -143,8 +144,8 @@ public class MainRoomFragment extends MainFragment implements View.OnClickListen
     private void onClickTable() {
         try
         {
-            Integer countTouch = dbHelper.getValueIntFromDB(idUser,DBHelper.KEY_COUNT_TOUCH_TABLE);
-            Log.d(TAG, "countTouch = " + countTouch);
+            Integer countTouch = DBHelper.getValueIntFromDB(userIdLocal, dbKeys.KEY_COUNT_TOUCH_TABLE);
+            Log.d(dbKeys.TAG, "countTouch = " + countTouch);
 
             if (countTouch == 0) {
 
@@ -153,10 +154,10 @@ public class MainRoomFragment extends MainFragment implements View.OnClickListen
                 MediaPlayer.create(context, R.raw.yaschiktumbochki).start();
                 MediaPlayer.create(context, R.raw.miscmetal).start();
                 messageBox.setText(R.string.msg_key1);
-                dbHelper.saveValueInDB(idUser,dbHelper.KEY_RIGHT_DOOR_KEY, 1);
+                DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_RIGHT_DOOR_KEY, 1);
 
                 countTouch++;
-                dbHelper.saveValueInDB(idUser,dbHelper.KEY_COUNT_TOUCH_TABLE, countTouch);
+                DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_COUNT_TOUCH_TABLE, countTouch);
 
                 return;
             }
@@ -177,18 +178,18 @@ public class MainRoomFragment extends MainFragment implements View.OnClickListen
                 hatch.setEnabled(true);
 
                 countTouch++;
-                dbHelper.saveValueInDB(idUser,dbHelper.KEY_COUNT_TOUCH_TABLE, countTouch);
-                dbHelper.saveValueInDB(idUser,dbHelper.KEY_IS_TABLE_MOVE, 1);
+                DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_COUNT_TOUCH_TABLE, countTouch);
+                DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_IS_TABLE_MOVE, 1);
                 return;
             }
 
             countTouch++;
-            dbHelper.saveValueInDB(idUser,dbHelper.KEY_COUNT_TOUCH_TABLE, countTouch);
+            DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_COUNT_TOUCH_TABLE, countTouch);
 
         }
         catch (Exception e)
         {
-            Log.e(TAG,"onClickTable:",e);
+            Log.e(dbKeys.TAG,"onClickTable:",e);
         }
 
     }
@@ -205,7 +206,7 @@ public class MainRoomFragment extends MainFragment implements View.OnClickListen
         }
         catch (Exception e)
         {
-            Log.e(TAG,"onClickMonaLiza:",e);
+            Log.e(dbKeys.TAG,"onClickMonaLiza:",e);
         }
 
     }
@@ -213,7 +214,6 @@ public class MainRoomFragment extends MainFragment implements View.OnClickListen
     private void onClickHatch() {
             replaceFragment(new HatchFragment());
     }
-
 
 
 }

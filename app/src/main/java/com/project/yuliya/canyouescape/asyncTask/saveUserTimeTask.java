@@ -1,8 +1,12 @@
-package com.project.yuliya.canyouescape.forserver;
+package com.project.yuliya.canyouescape.asyncTask;
 
 
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.project.yuliya.canyouescape.classes.User;
+import com.project.yuliya.canyouescape.constans.URL;
+import com.project.yuliya.canyouescape.constans.dbKeys;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestClientException;
@@ -18,10 +22,10 @@ public class saveUserTimeTask extends AsyncTask<User,Void,Integer > {
             RestTemplate template = new RestTemplate();
             template.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-            return template.postForObject(Constants.URL.SAVE_USER_TIME,user[0],Integer.class);
+            return template.postForObject(URL.SAVE_USER_TIME,user[0],Integer.class);
 
         } catch (RestClientException e) {
-            Log.d(Constants.TAG,"on doInBackground : ",e);
+            Log.d(dbKeys.TAG,"on doInBackground : ",e);
             return null;
         }
     }
@@ -30,10 +34,10 @@ public class saveUserTimeTask extends AsyncTask<User,Void,Integer > {
     protected void onPostExecute(Integer id) {
         try {
 
-            Log.d(Constants.TAG,"id : "+ String.valueOf(id));
+            Log.d(dbKeys.TAG,"id : "+ String.valueOf(id));
 
         } catch (Exception e) {
-            Log.d(Constants.TAG,"on onPostExecute : ",e);
+            Log.d(dbKeys.TAG,"on onPostExecute : ",e);
         }
 
     }

@@ -14,6 +14,7 @@ import android.widget.GridLayout;
 import android.widget.TextView;
 
 import com.project.yuliya.canyouescape.R;
+import com.project.yuliya.canyouescape.constans.dbKeys;
 import com.project.yuliya.canyouescape.helper.DBHelper;
 
 
@@ -31,14 +32,14 @@ public class CombinationLockFragment extends MainFragment implements View.OnClic
                              Bundle savedInstanceState) {
 
         fragmentName = "CombinationLockFragment";
-
+        Log.e(dbKeys.TAG,"onCreateCombinationLockFragment");
         try
         {
             view = inflater.inflate(R.layout.combination_lock_fragment, container, false);
             context = view.getContext();
-            dbHelper = new DBHelper(context);
+            DBHelper = new DBHelper(context);
             tool = (ToolFragment) getFragmentManager().findFragmentById(R.id.tool_fragment);
-            idUser = tool.idRowUser;
+            userIdLocal = tool.idRowUser;
 
             str = new String();
 
@@ -71,7 +72,7 @@ public class CombinationLockFragment extends MainFragment implements View.OnClic
         }
         catch (Exception e)
         {
-            Log.e(TAG,"onCreateView:",e);
+            Log.e(dbKeys.TAG,"onCreateView:",e);
         }
 
         return view;
@@ -143,7 +144,7 @@ public class CombinationLockFragment extends MainFragment implements View.OnClic
         {
             textView.setText("YES!!!");
             codelock.setEnabled(false);
-            dbHelper.saveValueInDB(idUser, DBHelper.KEY_IS_LOCKED_LEFT_DOOR,0);
+            DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_IS_LOCKED_LEFT_DOOR,0);
 
             getActivity().getSupportFragmentManager().popBackStack();
 

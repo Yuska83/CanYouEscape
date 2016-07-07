@@ -1,11 +1,14 @@
 package com.project.yuliya.canyouescape.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.project.yuliya.canyouescape.R;
+import com.project.yuliya.canyouescape.constans.dbKeys;
 import com.project.yuliya.canyouescape.fragment.CombinationLockFragment;
 import com.project.yuliya.canyouescape.fragment.HatchFragment;
 import com.project.yuliya.canyouescape.fragment.LeftDoorFragment;
@@ -22,87 +25,81 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements ToolFragment.OnInstrumentalFragmentListener {
 
-    public static final String TAG = "MyLog";
-    DBHelper dbHelper;
+    DBHelper DBHelper;
     FragmentTransaction fragmentTransaction;
 
     String nameCurrentFragment;
-    public int idUser;
+    public int userIdLocal;
     public long time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        idUser =getIntent().getExtras().getInt("idUser");
+        userIdLocal =getIntent().getExtras().getInt("userIdLocal");
 
         setContentView(R.layout.activity_main);
-        dbHelper = new DBHelper(this);
+        DBHelper = new DBHelper(this);
         time = new Date().getTime();// запоминаем текущее время
 
         try {
-            nameCurrentFragment = dbHelper.getValueStringFromDB(idUser,DBHelper.KEY_FRAGMENT_NAME);
+            nameCurrentFragment = DBHelper.getValueStringFromDB(userIdLocal, dbKeys.KEY_FRAGMENT_NAME);
 
             if (savedInstanceState == null) {
 
-                fragmentTransaction = getSupportFragmentManager().beginTransaction()
-                        .add(R.id.main_fragment_container, new MainRoomFragment());
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.main_fragment_container,new MainRoomFragment())
+                        .commit();
 
                 switch (nameCurrentFragment) {
 
                     case "LeftRoomFragment": {
-                        fragmentTransaction
-                                .replace(R.id.main_fragment_container, new LeftDoorFragment()).addToBackStack(null)
-                                .replace(R.id.main_fragment_container, new LeftRoomFragment()).addToBackStack(null);
+
+                        replaceFragment(new LeftDoorFragment());
+                        replaceFragment(new LeftRoomFragment());
                         break;
                     }
                     case "RightRoomFragment": {
-                        fragmentTransaction
-                                .replace(R.id.main_fragment_container, new RightDoorFragment()).addToBackStack(null)
-                                .replace(R.id.main_fragment_container, new RightRoomFragment()).addToBackStack(null);
+                        replaceFragment(new RightDoorFragment());
+                        replaceFragment(new RightRoomFragment());
                         break;
                     }
                     case "LeftDoorFragment": {
-                        fragmentTransaction
-                                .replace(R.id.main_fragment_container, new LeftDoorFragment()).addToBackStack(null);
+                        replaceFragment(new LeftDoorFragment());
                         break;
                     }
                     case "RightDoorFragment": {
-                        fragmentTransaction
-                                .replace(R.id.main_fragment_container, new RightDoorFragment()).addToBackStack(null);
+                        replaceFragment(new RightDoorFragment());
                         break;
                     }
                     case "CombinationLockFragment": {
-                        fragmentTransaction
-                                .replace(R.id.main_fragment_container, new LeftDoorFragment()).addToBackStack(null)
-                                .replace(R.id.main_fragment_container, new CombinationLockFragment()).addToBackStack(null);
+                        replaceFragment(new LeftDoorFragment());
+                        replaceFragment(new CombinationLockFragment());
                         break;
                     }
                     case "HatchFragment": {
-                        fragmentTransaction
-                                .replace(R.id.main_fragment_container, new HatchFragment()).addToBackStack(null);
+                        replaceFragment(new HatchFragment());
                         break;
                     }
                     case "SafetyBoxFragment": {
-                        fragmentTransaction
-                                .replace(R.id.main_fragment_container, new SafetyBoxFragment()).addToBackStack(null);
+                        replaceFragment(new SafetyBoxFragment());
                         break;
                     }
                 }
 
-                fragmentTransaction.commit();
+
             }
 
         } catch (Exception e) {
-            Log.e(TAG,"onClick:",e);
+            Log.e(dbKeys.TAG,"onClick:",e);
         }
 
     }
 
     //метод интерфейса, передает значение ID пользователя********************************************************************
     @Override
-    public int getIdRowUserInDb() {
-        return this.idUser;
+    public int getUserIdLocal() {
+        return this.userIdLocal;
     }
 
 
@@ -113,12 +110,12 @@ public class MainActivity extends AppCompatActivity implements ToolFragment.OnIn
 
         //считаем прошедшее время и записываем его в базу
         time = new Date().getTime() - time;
-        Log.d(TAG,"time = " +String.valueOf(time));
+        Log.d(dbKeys.TAG,"time = " +String.valueOf(time));
 
-        long oldTime = Long.valueOf(dbHelper.getValueStringFromDB(idUser,DBHelper.KEY_USER_TIME));
+        long oldTime = Long.valueOf(DBHelper.getValueStringFromDB(userIdLocal, dbKeys.KEY_USER_TIME));
 
         time += oldTime;
-        dbHelper.saveValueInDB(idUser,DBHelper.KEY_USER_TIME,String.valueOf(time));
+        DBHelper.saveValueInDB(userIdLocal, dbKeys.KEY_USER_TIME,String.valueOf(time));
     }
 
     @Override
@@ -126,5 +123,20 @@ public class MainActivity extends AppCompatActivity implements ToolFragment.OnIn
         super.onResume();
         //запускаем счет времени
         time = new Date().getTime();
+    }
+
+    public void replaceFragment(Fragment newFragment)
+    {
+        try
+        {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.main_fragment_container, newFragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
+        catch (Exception e)
+        {
+            Log.e(dbKeys.TAG,"onReplaceFragment:",e);
+        }
     }
 }
