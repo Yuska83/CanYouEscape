@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.project.yuliya.canyouescape.classes.User;
 import com.project.yuliya.canyouescape.constans.URL;
-import com.project.yuliya.canyouescape.constans.dbKeys;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestClientException;

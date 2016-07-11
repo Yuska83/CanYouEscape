@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Can You Escape</string>
+    <string name="app_name">Room Escape</string>
     <string name="change_player">Сменить пользователя</string>
     <string name="enter_you_name">Введите имя</string>
     <string name="msg_Oh_not_reach">Эх, не дотянуться ((</string>
@@ -25,4 +25,6 @@
     <string name="msg_tumbler2">Электричество надо экономить </string>
     <string name="msg_hatch2">Какой электрик это делал?</string>
     <string name="you">Вы : </string>
+    <string name="my_result">Мой результат</string>
+    <string name="place">место</string>
 </resources>

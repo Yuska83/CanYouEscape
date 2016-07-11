@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,13 +16,17 @@
         android:background="@drawable/door_login">
 
 
-        <ExpandableListView
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ExpandableListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/loginCurrentUsers"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
+
             />
+        </RelativeLayout>
 
         <EditText
             android:id="@+id/loginNewUser"
@@ -48,6 +53,20 @@
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="174dp"
             android:layout_marginRight="10dp" />
+
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="69dp"
+            android:layout_alignTop="@+id/play"
+            android:layout_alignRight="@+id/play"
+            android:layout_alignEnd="@+id/play" />
+
+
+
 
     </RelativeLayout>
 

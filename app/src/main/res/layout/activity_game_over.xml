@@ -43,6 +43,15 @@
         android:layout_alignParentStart="true"
         android:textSize="26dp" />
 
+    <com.facebook.share.widget.ShareButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/shareButton"
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignRight="@+id/listViewUsers"
+        android:layout_alignEnd="@+id/listViewUsers"
+        android:onClick="onClickShare"/>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -69,5 +78,8 @@
             android:layout_weight="4"
             android:gravity="right"
             android:paddingRight="10dp" />
+
+
     </LinearLayout>
+
 </RelativeLayout>

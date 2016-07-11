@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">Can You Escape</string>
+    <string name="app_name">Room Escape</string>
 
+    <string name="facebook_app_id" translatable="false">1661250504200153</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 
@@ -29,4 +30,6 @@
     <string name="play" translatable="false">PLAY</string>
     <string name="change_player">Change</string>
     <string name="you">You</string>
+    <string name="my_result">My result</string>
+    <string name="place">place </string>
 </resources>

@@ -119,6 +119,7 @@ public class MainRoomFragment extends MainFragment implements View.OnClickListen
                 Intent intent = new Intent(context, GameOverActivity.class);
                 intent.putExtra("userIdLocal", userIdLocal);
                 startActivity(intent);
+                getActivity().finish();
 
             } else {
                 messageBox.setText(R.string.msg_close);

@@ -1,19 +1,16 @@
 package com.project.yuliya.canyouescape.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListAdapter;
 import android.widget.TextView;
 
 import com.project.yuliya.canyouescape.R;
 import com.project.yuliya.canyouescape.classes.User;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
