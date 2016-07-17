@@ -3,42 +3,52 @@ package com.project.yuliya.canyouescape.classes;
 
 public class User {
 
-    private long id;
-    private String login;
+
+    private long globalId;
+    private int localId;
+    private String name;
     private long time;
-    private int idUser;
+
 
     public User()
     {
 
     }
-    public User(String login)
+    public User(String name)
     {
-        this.login = login;
+        this.setName(name);
     }
 
-    public User(long id,String login,long time)
+    public User(long globalId,String name,long time)
     {
-        this.id = id;
-        this.login = login;
-        this.time = time;
-    }
-    public long getId() {
-        return id;
+        this.globalId = globalId;
+        this.setName(name);
+        this.setTime(time);
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public long getGlobalId() {
+        return globalId;
     }
 
-    public String getLogin() {
-        return login;
+    public void setGlobalId(long globalId) {
+        this.globalId = globalId;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public int getLocalId() {
+        return localId;
     }
 
+    public void setLocalId(int localId) {
+        this.localId = localId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public long getTime() {
         return time;
@@ -46,13 +56,5 @@ public class User {
 
     public void setTime(long time) {
         this.time = time;
-    }
-
-    public int getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
     }
 }

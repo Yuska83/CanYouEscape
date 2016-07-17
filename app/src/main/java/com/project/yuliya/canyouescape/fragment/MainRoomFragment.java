@@ -114,6 +114,7 @@ public class MainRoomFragment extends MainFragment implements View.OnClickListen
         {
             if (((RadioButton)tool.RBG.getChildAt(5)).isChecked())
             {
+                DBHelper.saveValueInDB(userIdLocal,dbKeys.KEY_USER_IS_FINISH,1);
                 MediaPlayer.create(context, R.raw.doorclose).start();
 
                 Intent intent = new Intent(context, GameOverActivity.class);
@@ -167,7 +168,7 @@ public class MainRoomFragment extends MainFragment implements View.OnClickListen
             if (countTouch >= 3) {
 
 
-                TranslateAnimation anim = new TranslateAnimation(0, -90, 0, 0);
+                TranslateAnimation anim = new TranslateAnimation(0, -85, 0, 0);
                 anim.setDuration(1000);
                 anim.setFillAfter(true);
                 table.startAnimation(anim);

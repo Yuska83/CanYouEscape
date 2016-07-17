@@ -8,8 +8,9 @@ android {
         applicationId "com.project.yuliya.canyouescape"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "3.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -24,6 +25,7 @@ android {
         exclude 'META-INF/LICENSE'
     }
 }
+apply plugin: 'com.android.application'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -38,6 +40,7 @@ dependencies {
     compile 'org.springframework.android:spring-android-rest-template:2.0.0.M3'
     compile 'com.facebook.android:facebook-android-sdk:4.6.0'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.7.4'
+    compile 'com.google.android.gms:play-services:9.2.1'
 }
 
 repositories {

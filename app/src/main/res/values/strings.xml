@@ -29,7 +29,11 @@
     <string name="enter_you_name">Enter you name</string>
     <string name="play" translatable="false">PLAY</string>
     <string name="change_player">Change</string>
-    <string name="you">You</string>
+    <string name="you">My result</string>
     <string name="my_result">My result</string>
     <string name="place">place </string>
+    <string name="game_over" translatable="false">GAME OVER</string>
+    <string name="facebook_error">facebook error</string>
+    <string name="server_error">No server connection</string>
+    <string name="enter_name">Enter you name</string>
 </resources>

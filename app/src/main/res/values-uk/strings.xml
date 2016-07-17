@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Room Escape</string>
+    <string name="change_player">Змінити ігрока</string>
+    <string name="enter_name">Введіть ім\'я</string>
+    <string name="enter_you_name">Введіть ім\'я</string>
+    <string name="facebook_error">Не вдалося підключитися до Facebook</string>
+    <string name="msg_Oh_not_reach">Не дотягнутись((</string>
+    <string name="msg_cable">Шматок кабеля якийсь</string>
+    <string name="msg_close">Зачинено!!!</string>
+    <string name="msg_dark">ООО!! Як тут темно...</string>
+    <string name="msg_fixed">Відремонтовано!! Тепер щось запрацює</string>
+    <string name="msg_hammer">Ще й молоток!!Ну і дерево</string>
+    <string name="msg_hatch">А це що?</string>
+    <string name="msg_hatch2">Який електрик це робив?</string>
+    <string name="msg_inscription">Тут щось написано</string>
+    <string name="msg_it_can_be_moved">Він совається))</string>
+    <string name="msg_it_open">ОО, відкрився!!</string>
+    <string name="msg_key1">Тут ключ!!!</string>
+    <string name="msg_key2">Ще один ключ! Ну все, на вихід!!</string>
+    <string name="msg_key3">Я довго я тебе шукав!!!</string>
+    <string name="msg_key4">Ура!!! Ще ключ!!!</string>
+    <string name="msg_mirror">Дзеркало</string>
+    <string name="msg_safe">Сейф? Зовсім пагано((</string>
+    <string name="msg_tink">Дзинььь</string>
+    <string name="msg_tumbler">Не працюе, чи що?</string>
+    <string name="msg_tumbler1">Да буде світло</string>
+    <string name="msg_tumbler2">Електрику треба берегти</string>
+    <string name="my_result">Мій результат</string>
+    <string name="place">місце</string>
+    <string name="server_error">сервер не відповідає</string>
+    <string name="you">Мій результат</string>
+</resources>

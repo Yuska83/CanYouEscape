@@ -38,7 +38,7 @@ public class usersArrayAdapter extends ArrayAdapter<User>{
         TextView textViewTime = (TextView) listItem.findViewById(R.id.timeUser);
 
         textViewNum.setText(String.valueOf(position+1));
-        textViewName.setText(users.get(position).getLogin());
+        textViewName.setText(users.get(position).getName());
         textViewTime.setText(printTime(users.get(position).getTime()));
 
         return listItem;

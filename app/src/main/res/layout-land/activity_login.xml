@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,46 +15,56 @@
         android:layout_height="match_parent"
         android:background="@drawable/door_login">
 
-        <EditText
-            android:id="@+id/loginNewUser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:hint="@string/enter_you_name"
-            android:layout_above="@+id/play"
-            android:layout_alignRight="@+id/play"
-            android:layout_alignEnd="@+id/play" />
 
-        <TextView
-            android:id="@+id/loginCurrentUser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:textSize="25dp"
-            android:textIsSelectable="true"
-            android:onClick="onClickCurrentUserName"
-            android:layout_marginLeft="10dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+            <ExpandableListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/loginCurrentUsers"
 
-        <Button
-            android:id="@+id/play"
-            android:layout_width="130dp"
-            android:layout_height="50dp"
-            android:text="@string/play"
-            android:onClick="onClickPlay"
-            style="@style/Animation.AppCompat.DropDownUp"
-            android:background="#88b7b6"
-            android:textSize="20dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="85dp"
-            android:layout_marginRight="45dp" />
+                />
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/login_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_below="@+id/play"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="5dp" />
+
+            <Button
+                android:id="@+id/play"
+                android:layout_width="130dp"
+                android:layout_height="50dp"
+                android:text="@string/play"
+                android:onClick="onClickPlay"
+                style="@style/Animation.AppCompat.DropDownUp"
+                android:background="#88b7b6"
+                android:textSize="20dp"
+                android:layout_below="@+id/loginNewUser"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="5dp" />
+
+            <EditText
+                android:id="@+id/loginNewUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:hint="@string/enter_you_name"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="5dp" />
+        </RelativeLayout>
+
 
     </RelativeLayout>
-
 
 </RelativeLayout>

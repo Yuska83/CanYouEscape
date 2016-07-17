@@ -50,7 +50,7 @@ public class usersLocalExpandListAdapter extends BaseExpandableListAdapter {
             convertView = mInflater.inflate(R.layout.local_users, null);
         }
         TextView expListTextView = (TextView) convertView.findViewById(R.id.expandedListItem);
-        expListTextView.setText(expListText.getLogin());
+        expListTextView.setText(expListText.getName());
         return convertView;
     }
 

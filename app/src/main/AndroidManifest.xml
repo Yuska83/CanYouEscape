@@ -22,7 +22,8 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:label="@string/app_name" />
 
-        <activity android:name="com.project.yuliya.canyouescape.activity.LoginActivity">
+        <activity android:name="com.project.yuliya.canyouescape.activity.LoginActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -30,7 +31,8 @@
         </activity>
 
         <activity android:name="com.project.yuliya.canyouescape.activity.MainActivity" />
-        <activity android:name="com.project.yuliya.canyouescape.activity.GameOverActivity" />
+        <activity android:name="com.project.yuliya.canyouescape.activity.GameOverActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
     </application>
 
 </manifest>

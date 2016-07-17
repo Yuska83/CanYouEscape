@@ -30,11 +30,13 @@ public class DBHelper extends SQLiteOpenHelper {
         Log.d(dbKeys.TAG, "Enter onCreateDB");
 
 
-        db.execSQL("create table " + dbKeys.TABLE + "(" + dbKeys.KEY_ID + " integer primary key,"
-                + dbKeys.KEY_USER_ID + " int,"
+        db.execSQL("create table " + dbKeys.TABLE + "("
+                + dbKeys.KEY_ID + " integer primary key,"
+                + dbKeys.KEY_USER_GLOBAL_ID + " String,"
                 + dbKeys.KEY_USER_NAME + " String,"
                 + dbKeys.KEY_USER_TIME + " String,"
                 + dbKeys.KEY_USER_IS_CURRENT + " int,"
+                + dbKeys.KEY_USER_IS_FINISH + " int,"
                 + dbKeys.KEY_FRAGMENT_NAME + " String,"
                 + dbKeys.KEY_CABLE + " int,"
                 + dbKeys.KEY_IS_CABLE + " int,"
@@ -72,9 +74,9 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public long fillDB(int UserId, String UserName) {
+    public int saveNewUser(int globalId, String UserName) {
 
-        long idRow=-1;
+        int localId=-1;
         try {
             database = this.getWritableDatabase();
 
@@ -88,10 +90,11 @@ public class DBHelper extends SQLiteOpenHelper {
             if (database != null) {
 
                 contentValues = new ContentValues();
-                contentValues.put(dbKeys.KEY_USER_ID,UserId);
+                contentValues.put(dbKeys.KEY_USER_GLOBAL_ID,String.valueOf(globalId));
                 contentValues.put(dbKeys.KEY_USER_NAME,UserName);
                 contentValues.put(dbKeys.KEY_USER_TIME,"0");
                 contentValues.put(dbKeys.KEY_USER_IS_CURRENT,1);
+                contentValues.put(dbKeys.KEY_USER_IS_FINISH,0);
                 contentValues.put(dbKeys.KEY_FRAGMENT_NAME, "MainRoomFragment");
                 contentValues.put(dbKeys.KEY_IS_LOCKED_LEFT_DOOR, 1);
                 contentValues.put(dbKeys.KEY_IS_LOCKED_RIGHT_DOOR, 1);
@@ -117,23 +120,45 @@ public class DBHelper extends SQLiteOpenHelper {
                 contentValues.put(dbKeys.KEY_RIGHT_DOOR_KEY, 0);
                 contentValues.put(dbKeys.KEY_MAIN_KEY, 0);
 
-                idRow = database.insert(dbKeys.TABLE, null, contentValues);
+                localId =(int)database.insert(dbKeys.TABLE, null, contentValues);
 
-                Log.d(dbKeys.TAG, String.valueOf("idRow = " + idRow));
+                Log.d(dbKeys.TAG, String.valueOf("localId = " + localId));
                 database.close();
 
                 showDB();
             }
             else
-                Log.d(dbKeys.TAG, "Error fillDB");
+                Log.d(dbKeys.TAG, "Error saveNewUser");
 
         } catch (Exception e) {
             Log.d(dbKeys.TAG, " Error  ", e);
         } finally {
             if (database != null) database.close();
-            return idRow;
+            return localId;
         }
 
+
+    }
+
+    public void changeCurrentUser(int idNewCurrentUser)
+    {
+        try {
+            database = this.getWritableDatabase();
+
+            if (database != null) {
+
+                ContentValues newValues = new ContentValues();
+                newValues.put(dbKeys.KEY_USER_IS_CURRENT, 0);
+                database.update(dbKeys.TABLE, newValues, null, null);
+
+                saveValueInDB(idNewCurrentUser,dbKeys.KEY_USER_IS_CURRENT,1);
+            }
+
+        } catch (Exception e) {
+            Log.d(dbKeys.TAG, " Error  ", e);
+        } finally {
+            if (database != null) database.close();
+        }
 
     }
 
@@ -152,10 +177,11 @@ public class DBHelper extends SQLiteOpenHelper {
                 if (cursor.moveToFirst()) {
 
                     currentUser = new User();
-                    currentUser.setLogin(cursor.getString(cursor.getColumnIndex(dbKeys.KEY_USER_NAME)));
-                    currentUser.setIdUser(cursor.getInt(cursor.getColumnIndex(dbKeys.KEY_ID)));
+                    currentUser.setName(cursor.getString(cursor.getColumnIndex(dbKeys.KEY_USER_NAME)));
+                    currentUser.setLocalId(cursor.getInt(cursor.getColumnIndex(dbKeys.KEY_ID)));
 
-                    Log.d(dbKeys.TAG, "CurrentUser : Login = " + currentUser.getLogin() + ", IdUser = " + currentUser.getIdUser());
+                    Log.d(dbKeys.TAG, "getCurrrentUser : CurrentUser : Login = " + currentUser.getName()
+                            +", LocalId = " + currentUser.getLocalId());
                 } else
                     Log.d(dbKeys.TAG, "0 rows in getValue");
 
@@ -177,7 +203,38 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    public ArrayList<User> getLocalUsers() {
+    public Integer getRateUser(User user) {
+
+        ArrayList<User> topRateUsers=SortLocalUsers();
+
+        Integer rate = -1 ;
+        for (int i = 0; i < topRateUsers.size() ; i++) {
+
+            if(topRateUsers.get(i).getLocalId() == user.getLocalId())
+            {
+                rate = Integer.valueOf(i+1);break;
+            }
+        }
+        return rate;
+    }
+
+
+
+    public ArrayList<User> getTopRate() {
+        ArrayList<User> Users=SortLocalUsers();
+        ArrayList<User> topRateUsers = new ArrayList<>();
+        int j =0;
+        for (int i = 0; i <Users.size() ; i++) {
+            if(j==4) break;
+            topRateUsers.add(Users.get(i));
+            j++;
+
+        }
+
+        return topRateUsers;
+    }
+
+    public ArrayList<User> SortLocalUsers() {
 
         ArrayList<User> users =null;
         try {
@@ -187,17 +244,18 @@ public class DBHelper extends SQLiteOpenHelper {
 
                 cursor = database.query(dbKeys.TABLE, null,
                         null, null,
-                        null, null, null);
+                        null, null, dbKeys.KEY_USER_TIME+" ASC");
 
                 if (cursor.moveToFirst()) {
                     users = new ArrayList<User>();
                     do {
-                        int isCurreent=cursor.getInt(cursor.getColumnIndex(dbKeys.KEY_USER_IS_CURRENT));
-                        if( isCurreent == 1 ) break;
+                        if(cursor.getInt(cursor.getColumnIndex(dbKeys.KEY_USER_IS_FINISH))==0) continue;
 
                         User user = new User();
-                        user.setLogin(cursor.getString(cursor.getColumnIndex(dbKeys.KEY_USER_NAME)));
-                        user.setId(cursor.getInt(cursor.getColumnIndex(dbKeys.KEY_USER_ID)));
+                        user.setName(cursor.getString(cursor.getColumnIndex(dbKeys.KEY_USER_NAME)));
+                        user.setLocalId(cursor.getInt(cursor.getColumnIndex(dbKeys.KEY_ID)));
+                        user.setGlobalId(cursor.getInt(cursor.getColumnIndex(dbKeys.KEY_USER_GLOBAL_ID)));
+                        user.setTime(cursor.getInt(cursor.getColumnIndex(dbKeys.KEY_USER_TIME)));
                         users.add(user);
                     } while (cursor.moveToNext());
 
@@ -223,7 +281,56 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    public void saveValueInDB(int id, String key, int value) {
+    public ArrayList<User> getLocalUsers() {
+
+        ArrayList<User> users =null;
+        try {
+            database = this.getWritableDatabase();
+
+            if (database != null) {
+
+                cursor = database.query(dbKeys.TABLE, null,
+                        null, null,
+                        null, null, null);
+
+                if (cursor.moveToFirst()) {
+                    users = new ArrayList<User>();
+                    do {
+                        int isCurrent=cursor.getInt(cursor.getColumnIndex(dbKeys.KEY_USER_IS_CURRENT));
+                        if( isCurrent == 1 ) continue;
+
+                        User user = new User();
+                        user.setName(cursor.getString(cursor.getColumnIndex(dbKeys.KEY_USER_NAME)));
+                        user.setLocalId(cursor.getInt(cursor.getColumnIndex(dbKeys.KEY_ID)));
+                        user.setGlobalId(cursor.getInt(cursor.getColumnIndex(dbKeys.KEY_USER_GLOBAL_ID)));
+                        user.setTime(cursor.getInt(cursor.getColumnIndex(dbKeys.KEY_USER_TIME)));
+                        users.add(user);
+                    } while (cursor.moveToNext());
+
+
+                } else
+                    Log.d(dbKeys.TAG, "0 rows in getValue");
+
+                cursor.close();
+                database.close();
+
+
+            } else
+                Log.d(dbKeys.TAG, "Error getValue");
+
+        } catch (Exception e) {
+            Log.d(dbKeys.TAG, "Error ", e);
+        } finally {
+            if (database != null) database.close();
+            if (cursor != null) cursor.close();
+            return users;
+        }
+
+
+    }
+
+
+    public void saveValueInDB(int localId, String key, int value) {
         try {
             database = this.getWritableDatabase();
 
@@ -231,7 +338,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
                 ContentValues newValues = new ContentValues();
                 newValues.put(key, value);
-                String WHERE = dbKeys.KEY_ID + "=" + String.valueOf(id);
+                String WHERE = dbKeys.KEY_ID + "=" + String.valueOf(localId);
                 database.update(dbKeys.TABLE, newValues, WHERE, null);
                 database.close();
 
@@ -245,14 +352,14 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    public void saveValueInDB(int id, String key, String value) {
+    public void saveValueInDB(int localId, String key, String value) {
         try {
             database = this.getWritableDatabase();
 
             if (database != null) {
                 ContentValues newValues = new ContentValues();
                 newValues.put(key, value);
-                String WHERE = dbKeys.KEY_ID + "=" + String.valueOf(id);
+                String WHERE = dbKeys.KEY_ID + "=" + String.valueOf(localId);
                 database.update(dbKeys.TABLE, newValues, WHERE, null);
                 database.close();
 
@@ -268,7 +375,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    public int getValueIntFromDB(int id, String key) {
+    public int getValueIntFromDB(int localId, String key) {
         int value = -1;
 
         try {
@@ -277,14 +384,14 @@ public class DBHelper extends SQLiteOpenHelper {
             if (database != null) {
 
                 cursor = database.query(dbKeys.TABLE, new String[]{key},
-                        dbKeys.KEY_ID + " = ?", new String[]{String.valueOf(id)},
+                        dbKeys.KEY_ID + " = ?", new String[]{String.valueOf(localId)},
                         null, null, null);
 
                 if (cursor.moveToFirst()) {
 
                     value = cursor.getInt(cursor.getColumnIndex(key));
 
-                    Log.d(dbKeys.TAG, "ID = " + id + ", key = " + key + ", value = " + String.valueOf(value));
+                    Log.d(dbKeys.TAG, "localId = " + localId + ", key = " + key + ", value = " + String.valueOf(value));
                 } else
                     Log.d(dbKeys.TAG, "0 rows in getValue");
 
@@ -306,7 +413,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public String getValueStringFromDB(int id, String key) {
+    public String getValueStringFromDB(int localId, String key) {
 
         String value = "";
 
@@ -316,7 +423,7 @@ public class DBHelper extends SQLiteOpenHelper {
             if (database != null) {
 
                 cursor = database.query(dbKeys.TABLE, new String[]{key},
-                        dbKeys.KEY_ID + " = ?", new String[]{String.valueOf(id)},
+                        dbKeys.KEY_ID + " = ?", new String[]{String.valueOf(localId)},
                         null, null, null);
 
                 if (cursor.moveToFirst()) {
@@ -358,8 +465,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 if (cursor.moveToFirst()) {
 
                     do {
-                        Log.d(dbKeys.TAG, "ID = " + cursor.getInt(cursor.getColumnIndex(dbKeys.KEY_ID)) +
-                                ", UserId = " + cursor.getString(cursor.getColumnIndex(dbKeys.KEY_USER_ID))+
+                        Log.d(dbKeys.TAG, "localId = " + cursor.getInt(cursor.getColumnIndex(dbKeys.KEY_ID)) +
+                                ", globalId = " + cursor.getString(cursor.getColumnIndex(dbKeys.KEY_USER_GLOBAL_ID))+
                                 ", UserName = " + cursor.getString(cursor.getColumnIndex(dbKeys.KEY_USER_NAME))+
                                 ", UserIsCurrent = " + cursor.getString(cursor.getColumnIndex(dbKeys.KEY_USER_IS_CURRENT))+
                                 ", NameFragment = " + cursor.getString(cursor.getColumnIndex(dbKeys.KEY_FRAGMENT_NAME))+

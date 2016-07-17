@@ -10,9 +10,10 @@ public class dbKeys {
 
     public static final String KEY_ID = "_id";
     public static final String KEY_USER_IS_CURRENT = "UserIsCurrent";
-    public static final String KEY_USER_ID = "UserId";
+    public static final String KEY_USER_GLOBAL_ID = "globalUserId";
     public static final String KEY_USER_NAME = "UserName";
     public static final String KEY_USER_TIME = "UserTime";
+    public static final String KEY_USER_IS_FINISH = "UserIsFinish";
     public static final String KEY_FRAGMENT_NAME = "FragmentName";
     public static final String KEY_IS_LOCKED_LEFT_DOOR = "IsLockedLeftDoor";
     public static final String KEY_IS_LOCKED_RIGHT_DOOR = "IsLockedRightDoor";

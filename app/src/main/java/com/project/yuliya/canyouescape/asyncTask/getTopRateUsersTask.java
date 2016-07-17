@@ -9,6 +9,8 @@ import com.project.yuliya.canyouescape.constans.URL;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -23,7 +25,11 @@ public class getTopRateUsersTask extends AsyncTask<Void,Void,ArrayList<User>> {
     @Override
     protected ArrayList<User> doInBackground(Void... params) {
         try {
-            RestTemplate template = new RestTemplate();
+
+            ClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+            ((SimpleClientHttpRequestFactory) requestFactory).setConnectTimeout(3000);
+
+            RestTemplate template = new RestTemplate(requestFactory);
             template.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
             ResponseEntity<ArrayList<User>> usersResponse = template.exchange(URL.GET_TOP_RATE_USERS,

@@ -8,9 +8,16 @@ import com.project.yuliya.canyouescape.classes.User;
 import com.project.yuliya.canyouescape.constans.URL;
 import com.project.yuliya.canyouescape.constans.dbKeys;
 
+import org.springframework.http.HttpMethod;
+import org.springframework.http.client.ClientHttpRequest;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import java.io.IOException;
+import java.net.URI;
 
 public class saveUserTimeTask extends AsyncTask<User,Void,Integer > {
 
@@ -19,7 +26,11 @@ public class saveUserTimeTask extends AsyncTask<User,Void,Integer > {
     protected Integer doInBackground(User... user) {
 
         try {
-            RestTemplate template = new RestTemplate();
+            ClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+            ((SimpleClientHttpRequestFactory) requestFactory).setConnectTimeout(3000);
+
+            RestTemplate template = new RestTemplate(requestFactory);
+
             template.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
             return template.postForObject(URL.SAVE_USER_TIME,user[0],Integer.class);

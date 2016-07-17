@@ -24,7 +24,10 @@
     <string name="msg_tumbler1">Да будет свет</string>
     <string name="msg_tumbler2">Электричество надо экономить </string>
     <string name="msg_hatch2">Какой электрик это делал?</string>
-    <string name="you">Вы : </string>
+    <string name="you">Мой результат</string>
     <string name="my_result">Мой результат</string>
     <string name="place">место</string>
+    <string name="facebook_error">Не удалось подклюситься к Facebook</string>
+    <string name="server_error">нет соединения с сервером</string>
+    <string name="enter_name">введите свое имя</string>
 </resources>
