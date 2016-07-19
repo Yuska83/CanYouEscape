@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.project.yuliya.canyouescape.fragment.HatchFragment">
+    tools:context="com.project.yuliya.roomescape.fragment.HatchFragment">
 
     <RelativeLayout
         android:id="@+id/hatchLayout"
@@ -50,6 +50,7 @@
         <TextView
             android:id="@+id/message"
             style="@style/MyMessageStyle"
+            android:textColor="#12e3e7"
             android:textAlignment="center" />
 
     </RelativeLayout>

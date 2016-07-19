@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.project.yuliya.canyouescape.activity.GameOverActivity"
+    tools:context="com.project.yuliya.roomescape.activity.GameOverActivity"
     android:background="@drawable/door_open"
     android:onClick="onClick"
     android:id="@+id/end">
@@ -87,7 +87,7 @@
     <com.google.android.gms.ads.AdView android:id="@+id/adView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        ads:adUnitId="ca-app-pub-9404168656593828/2668592190"
+        ads:adUnitId="ca-app-pub-9404168656593828/6181644995"
         ads:adSize="BANNER"
         android:layout_gravity="bottom"
         android:layout_centerHorizontal="true"

@@ -1,0 +1,37 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.project.yuliya.roomescape.fragment.RightDoorFragment">
+
+    <RelativeLayout
+        android:id="@+id/myLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="5"
+        >
+
+        <ImageView
+            android:id="@+id/doorR"
+            android:layout_width="400dp"
+            android:layout_height="700dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
+
+        <ImageView
+            android:id="@+id/tumbler"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="250dp"
+            android:layout_marginTop="200dp"
+            android:background="@drawable/tumdler" />
+
+        <TextView
+            android:id="@+id/message"
+            style="@style/MyMessageStyleXLarge"
+            android:textAlignment="center" />
+    </RelativeLayout>
+
+</FrameLayout>

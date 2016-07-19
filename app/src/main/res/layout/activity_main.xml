@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/tool_fragment"
-        class="com.project.yuliya.canyouescape.fragment.ToolFragment"
+        class="com.project.yuliya.roomescape.fragment.ToolFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:layout="@layout/tool_fragment" />

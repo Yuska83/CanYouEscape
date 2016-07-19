@@ -1,0 +1,48 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.project.yuliya.roomescape.fragment.ToolFragment">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RadioGroup
+            android:id="@+id/RBGroup"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:background="#afefff"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/RB1"
+                style="@style/RadioButtonStyle" />
+
+            <RadioButton
+                android:id="@+id/RB2"
+                style="@style/RadioButtonStyle" />
+
+            <RadioButton
+                android:id="@+id/RB3"
+                style="@style/RadioButtonStyle" />
+
+            <RadioButton
+                android:id="@+id/RB4"
+                style="@style/RadioButtonStyle" />
+
+            <RadioButton
+                android:id="@+id/RB5"
+                style="@style/RadioButtonStyle" />
+
+            <RadioButton
+                android:id="@+id/RB6"
+                style="@style/RadioButtonStyle" />
+
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+</FrameLayout>

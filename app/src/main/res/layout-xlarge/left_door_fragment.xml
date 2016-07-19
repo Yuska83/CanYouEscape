@@ -1,0 +1,37 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.project.yuliya.roomescape.fragment.LeftDoorFragment">
+
+    <RelativeLayout
+        android:id="@+id/LDLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="5"
+        android:background="@drawable/door_left">
+
+        <ImageView
+            android:id="@+id/codeLock"
+            android:layout_width="100dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="261dp"
+            android:background="@drawable/codelock"
+            android:layout_alignTop="@+id/doorL"
+            android:layout_toLeftOf="@+id/doorL"
+            android:layout_toStartOf="@+id/doorL" />
+
+        <ImageView
+            android:id="@+id/doorL"
+            android:layout_width="350dp"
+            android:layout_height="1000dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:id="@+id/message"
+            style="@style/MyMessageStyleXLarge"
+            android:textAlignment="center" />
+    </RelativeLayout>
+
+</FrameLayout>

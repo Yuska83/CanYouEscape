@@ -5,12 +5,13 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.project.yuliya.canyouescape"
+        applicationId "com.project.yuliya.roomescape"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 3
-        versionName "3.0"
+        versionCode 1
+        versionName "1.0"
         multiDexEnabled true
+
     }
     buildTypes {
         release {
@@ -23,6 +24,9 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/LICENSE'
+    }
+    dexOptions{
+        javaMaxHeapSize "4g"
     }
 }
 apply plugin: 'com.android.application'

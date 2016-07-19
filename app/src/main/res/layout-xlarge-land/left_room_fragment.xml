@@ -1,0 +1,80 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.project.yuliya.roomescape.fragment.LeftRoomFragment">
+
+    <RelativeLayout
+        android:id="@+id/LRLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="5"
+        android:background="@drawable/room_left"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/mirror"
+            android:layout_width="350dp"
+            android:layout_height="360dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="240dp"
+            android:layout_marginTop="50dp" />
+
+        <ImageView
+            android:id="@+id/key"
+            android:layout_width="65dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="450dp"
+            android:layout_marginTop="320dp"
+            android:background="@drawable/key_hatch"
+            android:enabled="false"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/cable"
+            android:layout_width="90dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="70dp"
+            android:background="@drawable/cable"
+            android:enabled="false"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/hammer"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignWithParentIfMissing="false"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="70dp"
+            android:background="@drawable/hammer"
+            android:enabled="false"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/tree"
+            android:layout_width="200dp"
+            android:layout_height="190dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" />
+
+        <ImageView
+            android:id="@+id/door1"
+            android:layout_width="400dp"
+            android:layout_height="600dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="60dp" />
+
+        <TextView
+            android:id="@+id/message"
+            style="@style/MyMessageStyleXLarge"
+            android:textAlignment="center" />
+
+    </RelativeLayout>
+
+</FrameLayout>

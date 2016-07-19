@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.project.yuliya.canyouescape.fragment.ToolFragment">
+    tools:context="com.project.yuliya.roomescape.fragment.ToolFragment">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -18,7 +18,8 @@
 
             <RadioButton
                 android:id="@+id/RB1"
-                style="@style/RadioButtonStyle" />
+                style="@style/RadioButtonStyle"
+                />
 
             <RadioButton
                 android:id="@+id/RB2"

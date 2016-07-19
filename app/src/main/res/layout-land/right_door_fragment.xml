@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.project.yuliya.canyouescape.fragment.RightDoorFragment">
+    tools:context="com.project.yuliya.roomescape.fragment.RightDoorFragment">
 
     <RelativeLayout
         android:id="@+id/myLayout"
@@ -21,11 +21,13 @@
             android:id="@+id/tumbler"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="120dp"
-            android:layout_marginTop="90dp"
-            android:background="@drawable/tumdler" />
+            android:layout_marginTop="84dp"
+            android:background="@drawable/tumdler"
+            android:layout_alignTop="@+id/doorR"
+            android:layout_toRightOf="@+id/doorR"
+            android:layout_toEndOf="@+id/doorR"
+            android:layout_marginLeft="53dp"
+            android:layout_marginStart="53dp" />
 
         <TextView
             android:id="@+id/message"

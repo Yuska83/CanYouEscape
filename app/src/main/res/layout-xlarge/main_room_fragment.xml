@@ -1,0 +1,90 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.project.yuliya.roomescape.fragment.MainRoomFragment">
+
+    <RelativeLayout
+        android:id="@+id/myLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="5"
+        android:background="@drawable/room_main1">
+
+        <ImageView
+            android:id="@+id/mainDoor"
+            android:layout_width="150dp"
+            android:layout_height="500dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="300dp" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="50dp"
+            android:background="@drawable/codelock2" />
+
+        <ImageView
+            android:id="@+id/leftDoor"
+            android:layout_width="130dp"
+            android:layout_height="800dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="60dp" />
+
+
+        <ImageView
+            android:id="@+id/rightDoor"
+            android:layout_width="130dp"
+            android:layout_height="800dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="60dp" />
+
+
+        <ImageView
+            android:id="@+id/MonaLiza"
+            android:layout_width="80dp"
+            android:layout_height="130dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="240dp"
+            android:layout_marginTop="450dp"
+            android:background="@drawable/mona_liza" />
+
+
+        <ImageView
+            android:id="@+id/table"
+            android:layout_width="70dp"
+            android:layout_height="200dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="200dp"
+            android:layout_marginTop="620dp"
+            android:background="@drawable/table" />
+
+        <ImageView
+            android:id="@+id/table2"
+            android:layout_width="70dp"
+            android:layout_height="200dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="250dp"
+            android:layout_marginTop="620dp"
+            android:background="@drawable/table"
+            android:visibility="invisible" />
+
+
+        <ImageView
+            android:id="@+id/hatchSmall"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="270dp"
+            android:layout_marginTop="150dp"
+            android:background="@drawable/hatch" />
+
+        <TextView
+            android:id="@+id/message"
+            style="@style/MyMessageStyleXLarge"
+            android:textAlignment="center" />
+    </RelativeLayout>
+
+</FrameLayout>

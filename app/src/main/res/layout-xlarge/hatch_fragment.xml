@@ -1,0 +1,57 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.project.yuliya.roomescape.fragment.HatchFragment">
+
+    <RelativeLayout
+        android:id="@+id/hatchLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="5">
+
+        <ImageView
+            android:layout_width="500dp"
+            android:layout_height="500dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/cables2" />
+
+        <ImageView
+            android:id="@+id/cables"
+            android:layout_width="380dp"
+            android:layout_height="150dp"
+            android:layout_centerInParent="true" />
+
+        <ImageView
+            android:id="@+id/keySafe"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentBottom="false"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="650dp"
+            android:background="@drawable/key_safe" />
+
+        <ImageView
+            android:id="@+id/hatchBackground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:background="@drawable/hatch_open" />
+
+        <ImageView
+            android:id="@+id/hatchLock"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_centerVertical="true"
+            android:layout_alignRight="@+id/cables"
+            android:layout_alignEnd="@+id/cables" />
+
+        <TextView
+            android:id="@+id/message"
+            style="@style/MyMessageStyleXLarge"
+            android:textColor="#12e3e7"
+            android:textAlignment="center" />
+
+    </RelativeLayout>
+
+</FrameLayout>

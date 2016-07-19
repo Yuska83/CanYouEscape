@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.project.yuliya.roomescape.activity.GameOverActivity"
+    android:background="@drawable/door_open"
+    android:onClick="onClick"
+    android:id="@+id/end">
+
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="70dp"
+        android:textAlignment="center"
+        android:text="@string/game_over"
+        android:textSize="65dp"
+        android:textColor="#34393c"
+        android:gravity="center_vertical|center_horizontal"
+        android:textIsSelectable="false" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listViewUsers"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="49dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/you"
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textSize="36dp"
+        android:id="@+id/textView2"
+        android:textIsSelectable="true" />
+
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/linearLayout"
+        android:layout_above="@+id/shareButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/numCurrentUser"
+            style="@style/MyListItem"
+            android:layout_weight="2"
+            android:textSize="36dp" />
+
+        <TextView
+            android:id="@+id/nameCurrentUser"
+            style="@style/MyListItem"
+            android:layout_weight="5"
+            android:textSize="36dp" />
+
+        <TextView
+            android:id="@+id/timeCurrentUser"
+            style="@style/MyListItem"
+            android:layout_weight="4"
+            android:gravity="right"
+            android:paddingRight="10dp"
+            android:textSize="36dp" />
+
+    </LinearLayout>
+
+    <com.facebook.share.widget.ShareButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/shareButton"
+        android:layout_above="@+id/message"
+        android:layout_marginBottom="45dp"
+        android:layout_alignRight="@+id/adView"
+        android:layout_alignEnd="@+id/adView"
+        android:textSize="36dp" />
+
+    <com.google.android.gms.ads.AdView android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adUnitId="ca-app-pub-9404168656593828/6181644995"
+        ads:adSize="BANNER"
+        android:layout_gravity="bottom"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignWithParentIfMissing="true" />
+
+
+</RelativeLayout>

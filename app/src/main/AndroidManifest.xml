@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.project.yuliya.canyouescape">
+    package="com.project.yuliya.roomescape">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <provider android:authorities="com.facebook.app.FacebookContentProvider1661250504200153"
-        android:name="com.facebook.FacebookContentProvider"
-        android:exported="true"/>
+
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_door"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.NoActionBar">
+        android:theme="@style/Theme.AppCompat.NoActionBar"
+        android:name="android.support.multidex.MultiDexApplication">
+
+        <provider android:authorities="com.facebook.app.FacebookContentProvider1803005969930227"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true"/>
+
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
 
         <activity android:name="com.facebook.FacebookActivity"
@@ -22,16 +26,16 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:label="@string/app_name" />
 
-        <activity android:name="com.project.yuliya.canyouescape.activity.LoginActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan" >
+        <activity android:name="com.project.yuliya.roomescape.activity.LoginActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name="com.project.yuliya.canyouescape.activity.MainActivity" />
-        <activity android:name="com.project.yuliya.canyouescape.activity.GameOverActivity"
+        <activity android:name="com.project.yuliya.roomescape.activity.MainActivity" />
+        <activity android:name="com.project.yuliya.roomescape.activity.GameOverActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
     </application>
 

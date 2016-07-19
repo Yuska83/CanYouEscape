@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.project.yuliya.canyouescape.fragment.LeftDoorFragment">
+    tools:context="com.project.yuliya.roomescape.fragment.LeftDoorFragment">
 
     <RelativeLayout
         android:id="@+id/LDLayout"
@@ -14,10 +14,11 @@
             android:id="@+id/codeLock"
             android:layout_width="35dp"
             android:layout_height="55dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="70dp"
-            android:layout_marginTop="130dp"
-            android:background="@drawable/codelock" />
+            android:layout_marginTop="125dp"
+            android:background="@drawable/codelock"
+            android:layout_alignTop="@+id/doorL"
+            android:layout_toLeftOf="@+id/doorL"
+            android:layout_toStartOf="@+id/doorL" />
 
         <ImageView
             android:id="@+id/doorL"
